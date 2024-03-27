@@ -1,0 +1,30 @@
+nav {
+  background-color: #333;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex; /* Utilizăm flexbox */
+}
+
+nav ul li {
+  margin-right: 1em; /* Spațiere între elemente folosind unitatea em */
+}
+
+nav ul li:last-child {
+  margin-right: 0; /* Eliminăm spațiul pentru ultimul element */
+}
+
+nav ul li a {
+  display: inline-block;
+  padding: 1em 2em; /* Padding folosind unitatea em */
+  color: white;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
+
