@@ -1,25 +1,21 @@
 nav {
-  background-color: #333;
+  background-color:#0547ab;
 }
 
 nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  display: flex; /* Utilizăm flexbox */
+  display: flex;
+  justify-content: flex-end; 
 }
 
 nav ul li {
-  margin-right: 1em; /* Spațiere între elemente folosind unitatea em */
-}
-
-nav ul li:last-child {
-  margin-right: 0; /* Eliminăm spațiul pentru ultimul element */
-}
+  margin-right: 1em; 
 
 nav ul li a {
   display: inline-block;
-  padding: 1em 2em; /* Padding folosind unitatea em */
+  padding: 1em 2em; 
   color: white;
   text-decoration: none;
 }
@@ -28,3 +24,13 @@ nav ul li a:hover {
   background-color: #555;
 }
 
+header {
+  color: #0547ab;
+  display: flex;
+  justify-content: center;
+}
+#signin{
+  display:grid;
+  justify-content: center;
+  margin: 2em;
+}
