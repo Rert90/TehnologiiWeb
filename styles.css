@@ -1,11 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
 nav {
-  background-color: #0547ab;
+  background-color: #333;
+  color: #fff;
+  padding: 1em;
+  display: flex;
+  justify-content:space-between;
+}
+
+.title {
+  color: #fff; 
+  font-size: 1.8rem; 
+  font-weight: bold; 
+  margin-top: 0.6em;
+  margin-left: 8em;
 }
 
 nav ul {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   justify-content: flex-end;
 }
@@ -18,11 +34,29 @@ nav ul li a {
   display: inline-block;
   padding: 1em 2em;
   color: white;
-  text-decoration: none;
+
 }
 
 nav ul li a:hover {
   background-color: #555;
+}
+.floating-logo {
+  position: fixed;
+  bottom: 0.6em;
+  right: 0.6em;
+}
+
+.floating-logo img {
+  height: 6em;
+  width: auto;
+  border-radius: 100%;
+  box-shadow: 0 0 0.6em rgba(0, 0, 0, 0.5);
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  border-radius: 10px;
 }
 
 header {
@@ -101,4 +135,89 @@ header {
 
 .contact-box {
   text-align: center;
+}
+
+.bmi-box {
+  margin-top: 60px;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bmi-text {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin: 0;
+}
+
+.bmi-subtext {
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.bmi-image {
+  position: absolute;
+  top: 0;
+  right: calc(100% + 20px); 
+  transform: translateY(-50%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.bmi-box:hover .bmi-image {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bmi-explorer {
+  padding: 20px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bmi-explorer .content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.bmi-explorer h2 {
+  color: #333;
+  font-size: 2rem; 
+  margin-bottom: 20px; 
+}
+
+.bmi-explorer p {
+  color: #555;
+  font-size: 1.1rem; 
+  margin-bottom: 15px; 
+}
+
+.bmi-explorer h3 {
+  color: #555;
+  font-size: 1.5rem; 
+  margin-top: 20px; 
+  margin-bottom: 10px; 
+}
+
+.bmi-explorer ul {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.bmi-explorer ul li {
+  margin-bottom: 10px;
+  font-size: 1.1rem; 
+  list-style-type:none;
+}
+
+
+.bmi-box:hover .bmi-image img {
+  height: 400px;
+  width: 400px;
 }
