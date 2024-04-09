@@ -1,25 +1,48 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VisB</title>
-    <link href="styles.css" rel="stylesheet" type="text/css">
-  </head>
-  <header>
-    <h1>BMI Visualizer</h1>
-  </header>
-
+<html lang="ro">
+<head>
+    <link rel="stylesheet" href="home.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicația VisB</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
 <nav>
-  <ul>
-            <li><a href="index.html" class="active">Home</a></li>
-            <li><a href="charts.html">Charts</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="signin.html">Sign In</a></li>
-  </ul>
+    <div class="logo">
+        <img src="poza.jpg" alt="Logo proiect">
+    </div>
+    <span class="title">Visualizer for BMI</span>
+    <ul>
+        <li><a href="Home.html" class="active">Home</a></li>
+        <li><a href="#">Charts</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Login</a></li>
+    </ul>
 </nav>
+<div class="floating-logo">
+    <img src="poza1.jpg" alt="Logo proiect">
+</div>
+
+<section class="bmi-explorer">
+    <h2>Bine ați venit la BMI Explorer!</h2>
+    <p>Explorați și comparați indicele de masă corporală (BMI) într-un mod interactiv și informativ. BMI Explorer vă permite să accesați și să analizați datele referitoare la BMI folosind datele publice furnizate de Eurostat, prin intermediul propriului nostru API REST/GraphQL.</p>
+    <h3>Caracteristici principale:</h3>
+    <ul>
+        <li>Vizualizare interactivă: Experimentați grafice interactive și instrumente de vizualizare care vă permit să înțelegeți și să explorați diferite aspecte ale BMI.</li>
+        <li>Comparare facilă: Comparați nivelurile BMI între țări și în funcție de sex, pentru a identifica tendințe și diferențe semnificative.</li>
+        <li>Acces rapid la date: Utilizați API-ul nostru REST/GraphQL pentru a accesa datele brute și a le integra în propriile dvs. aplicații sau analize.</li>
+        <li>Actualizări constante: Datele noastre sunt actualizate periodic, asigurându-vă că aveți întotdeauna cele mai recente informații disponibile.</li>
+    </ul>
+    <p>Începeți să explorați acum și să descoperiți insigiențele interesante despre BMI în întreaga Europă și dincolo!</p>
+    <div class="bmi-box">
+        <p class="bmi-text">BMI</p>
+        <p class="bmi-subtext">(apropie cursorul)</p>
+        <div class="bmi-image">
+            <img src="imaginebmi.png" alt="Imagine BMI">
+        </div>
+    </div>
+</section>
 
 </body>
-
 </html>
