@@ -1,5 +1,5 @@
 nav {
-  background-color:#0547ab;
+  background-color: #0547ab;
 }
 
 nav ul {
@@ -7,15 +7,16 @@ nav ul {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
 }
 
 nav ul li {
-  margin-right: 1em; }
+  margin-right: 1em;
+}
 
 nav ul li a {
   display: inline-block;
-  padding: 1em 2em; 
+  padding: 1em 2em;
   color: white;
   text-decoration: none;
 }
@@ -29,8 +30,75 @@ header {
   display: flex;
   justify-content: center;
 }
-#signin{
-  display:grid;
-  justify-content: center;
-  margin: 2em;
+
+.contact-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.25em;
+}
+
+.contact-box {
+  width: 45%;
+  padding: 1.25em;
+  box-shadow: 0 0 0.6em rgba(0, 0, 0, 0.1);
+}
+
+.contact-box h2 {
+  margin-bottom: 0.6em;
+  color: #333;
+}
+
+.contact-box form label {
+  display: block;
+  font-weight: bold;
+  color: #555;
+}
+
+.contact-box form input[type="text"],
+.contact-box form input[type="email"] {
+  width: 90%;
+  max-width: 18em;
+  padding: 0.5em;
+  margin-bottom: 0.6em;
+  border: 0.0625em solid #ccc;
+}
+
+.contact-box form textarea {
+  width: 90%;
+  max-width: 18em;
+  height: 5em;
+  padding: 0.5em;
+  border: 0.06em solid #ccc;
+}
+
+.button {
+  background-color: #0547ab;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.button:hover {
+  background-color: #033a77;
+}
+
+.contact-box ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.contact-box ul li {
+  margin-bottom: 0.6em;
+  color: #555;
+}
+
+.contact-box iframe {
+  width: 100%;
+}
+
+.contact-box {
+  text-align: center;
 }
