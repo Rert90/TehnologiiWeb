@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
+<head>
     <link rel="shortcut icon" type="image/jpg" href="logomin.jpg"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VisB</title>
     <link href="styles.css" rel="stylesheet" type="text/css">
-  </head>
-
+</head>
 <body>
-  <nav>
+<nav>
     <div class="logo">
         <img src="logo.jpg" alt="Logo proiect">
     </div>
@@ -21,19 +20,42 @@
         <li><a href="signin.html">Sign In</a></li>
     </ul>
 </nav>
-  <div class="floating-logo">
+<div class="floating-logo">
     <img src="logomin.jpg" alt="Logo proiect">
-  </div>
-<form id="signin">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
-
-  <button type="submit">Sign In</button>
-</form>
-
+</div>
+<div class="login-register-section">
+    <div class="login-register-container">
+        <input type="radio" id="login" name="login-register" checked>
+        <input type="radio" id="register" name="login-register">
+        <div class="login-register-buttons">
+            <label for="login">Login</label>
+            <label for="register">Register</label>
+        </div>
+        <div class="login-register-form">
+            <form id="login-form">
+                <div class="input-container">
+                    <label for="login-username">Username:</label>
+                    <input type="text" id="login-username" name="login-username" required>
+                </div>
+                <div class="input-container">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="login-password" required>
+                </div>
+                <button type="submit" class="button">Login</button>
+            </form>
+            <form id="register-form">
+                <div class="input-container">
+                    <label for="register-username">Username:</label>
+                    <input type="text" id="register-username" name="register-username" required>
+                </div>
+                <div class="input-container">
+                    <label for="register-password">Password:</label>
+                    <input type="password" id="register-password" name="register-password" required>
+                </div>
+                <button type="submit" class="button">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
-
 </html>

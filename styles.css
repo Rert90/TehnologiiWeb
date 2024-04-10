@@ -221,3 +221,157 @@ header {
   height: 400px;
   width: 400px;
 }
+
+
+
+input[type="radio"] {
+  display: none;
+}
+
+.login-register-section {
+  background-color: #ccc; /* culoare gri pentru fundal */
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.login-register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  background-color: #f9f9f9;
+  padding: 30px; 
+  margin: 20px; 
+}
+
+.login-register-buttons {
+  display: flex;
+}
+
+.login-register-buttons label {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+.login-register-buttons label:hover {
+  background-color: #eee;
+}
+
+.login-register-form form {
+  display: none;
+  margin-top: 20px;
+  text-align: center
+}
+
+#login:checked ~ .login-register-form #login-form,
+#register:checked ~ .login-register-form #register-form {
+  display: block;
+}
+
+.input-container {
+  margin-bottom: 15px;
+}
+
+.input-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-container input[type="text"],
+.input-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.input-container input[type="text"]:focus,
+.input-container input[type="password"]:focus {
+  border-color: #333;
+}
+
+.button {
+  background-color: #0547ab;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #033a77;
+}/* Modificări estetice pentru secțiunea de autentificare și înregistrare */
+.login-register-section {
+  background-color: #f5f5f5; /* Schimbăm culoarea fundalului la o nuanță mai plăcută */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adăugăm o umbră delicată */
+}
+
+.login-register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #ffffff; /* Fundal alb */
+  padding: 30px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adăugăm o umbră delicată */
+  max-width: 400px;
+}
+
+.login-register-buttons label {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #f0f0f0; /* Fundal gri deschis */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 0 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease; /* Adăugăm o tranziție lină */
+}
+
+.login-register-buttons label:hover {
+  background-color: #e0e0e0; /* Efect de hover pe fundal */
+}
+
+.input-container input[type="text"],
+.input-container input[type="password"] {
+  width: 100%;
+  padding: 12px; /* Mărim puțin padding-ul */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.input-container input[type="text"]:focus,
+.input-container input[type="password"]:focus {
+  border-color: #333;
+}
+
+.button {
+  background-color: #007bff; /* Schimbăm culoarea butoanelor la albastru */
+  color: white;
+  border: none;
+  padding: 12px 24px; /* Mărim puțin padding-ul */
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease; 
+}
+
+.button:hover {
+  background-color: #0056b3; /* Efect de hover pentru butoane */
+}
