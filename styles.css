@@ -4,6 +4,9 @@ body {
   font-family: Arial, sans-serif;
 }
 
+a{
+  text-decoration: none;
+}
 nav {
   background-color: #333;
   color: #fff;
@@ -16,9 +19,10 @@ nav {
   color: #fff; 
   font-size: 1.8rem; 
   font-weight: bold; 
-  margin-top: 0.6em;
-  margin-left: 8em;
+  
+  margin:auto;
 }
+
 
 nav ul {
   list-style-type: none;
@@ -40,6 +44,11 @@ nav ul li a {
 nav ul li a:hover {
   background-color: #555;
 }
+.logo img {
+  height: 70px;
+  width: auto;
+  border-radius: 10px;
+}
 .floating-logo {
   position: fixed;
   bottom: 0.6em;
@@ -53,11 +62,7 @@ nav ul li a:hover {
   box-shadow: 0 0 0.6em rgba(0, 0, 0, 0.5);
 }
 
-.logo img {
-  height: 70px;
-  width: auto;
-  border-radius: 10px;
-}
+
 
 header {
   color: #0547ab;
@@ -296,20 +301,6 @@ input[type="radio"] {
   border-color: #333;
 }
 
-.button {
-  background-color: #0547ab;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.button:hover {
-  background-color: #033a77;
-}
-
 .login-register-section {
   background-color: #f5f5f5; 
   padding: 20px;
@@ -359,7 +350,7 @@ input[type="radio"] {
   border-color: #333;
 }
 
-.button {
+.button-login {
   background-color: #007bff; 
   color: white;
   border: none;
@@ -370,7 +361,7 @@ input[type="radio"] {
   transition: background-color 0.3s ease; 
 }
 
-.button:hover {
+.button-login:hover {
   background-color: #0056b3; 
 }
 
@@ -396,6 +387,19 @@ input[type="radio"] {
 }
 
 .button-charts:hover {
+  background-color: #033a77;
+}
+.a-generate{
+  background-color: #ccc;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.a-generate:hover {
   background-color: #033a77;
 }
 

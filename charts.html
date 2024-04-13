@@ -1,47 +1,70 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
+<head>
     <link rel="shortcut icon" type="image/jpg" href="logomin.jpg"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>VisB</title>
     <link href="styles.css" rel="stylesheet" type="text/css">
-  </head>
+    <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
+    <script src="charts.js" defer></script>
+</head>
 <body>
-  <nav>
+<nav>
     <div class="logo">
         <img src="logo.jpg" alt="Logo proiect">
     </div>
-    <span class="title">Visualizer for BMI</span>
     <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="charts.html">Charts</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="signin.html">Sign In</a></li>
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="charts.html"><i class="fas fa-chart-bar"></i> Charts</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
     </ul>
 </nav>
-  <div class="floating-logo">
+<div class="floating-logo">
     <img src="logomin.jpg" alt="Logo proiect">
-  </div>
-  <div class="charts-container">
+</div>
+<div class="charts-container">
     <div class="charts-box">
-      <h2>What chart do you want to use?</h2>
-      <ul>
-        <li><button class="button-charts" type="button">Bar Chart</button></li>
-        <li><button class="button-charts" type="button">Table Chart</button></li>
-        <li><button class="button-charts" type="button">Line Chart</button></li>
-      </ul>
+        <h2>Selectați tipul de grafic:</h2>
+        <button class="button-charts" id="bar-chart">Bar Chart</button>
+        <button class="button-charts" id="line-chart">Line Chart</button>
+        <button class="button-charts" id="pie-chart">Pie Chart</button>
+        <button class="button-download" id="download-chart" type="button"><i class="fas fa-download"></i> Download</button>
     </div>
     <div class="charts-box">
-      <h2>Choose what category you want to see</h2>
-      <ul>
-        <li><button class="button-charts" type="button">Age</button></li>
-        <li><button class="button-charts" type="button"> Sex </button></li>
-        <li><button class="button-charts" type="button">Country</button></li>
-      </ul>
+        <h2>Selectați categoriile:</h2>
+        <form id="categories-form">
+            <div class="input-container">
+                <label for="sex">Sex:</label>
+                <select id="sex" name="sex">
+                    <option value="both">Both</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="country">Country:</label>
+                <select id="country" name="country" multiple>
+                    <option value="Romania">Romania</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <!-- Adăugați și alte opțiuni pentru țări -->
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="age">Age:</label>
+                <input type="number" id="age-min" name="age-min" min="0" placeholder="Min">
+                <input type="number" id="age-max" name="age-max" min="0" placeholder="Max">
+            </div>
+            <div class="input-container">
+                <label for="year">Year:</label>
+                <input type="number" id="year-min" name="year-min" min="0" placeholder="Min">
+                <input type="number" id="year-max" name="year-max" min="0" placeholder="Max">
+            </div>
+            <button type="submit" class="button-submit">Submit</button>
+        </form>
     </div>
-  </div>
-
+</div>
 </body>
-
 </html>
