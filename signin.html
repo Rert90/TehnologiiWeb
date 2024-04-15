@@ -7,7 +7,6 @@
     <title>VisB</title>
     <link href="styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
 <nav>
@@ -20,20 +19,14 @@
         <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
         <li><a href="signin.html"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
     </ul>
-</nav>
-<div class="floating-logo">
+    <div class="floating-logo">
     <img src="logomin.jpg" alt="Logo proiect">
 </div>
+</nav>
 <div class="login-register-section">
     <div class="login-register-container">
-        <input type="radio" id="login" name="login-register" checked>
-        <input type="radio" id="register" name="login-register">
-        <div class="login-register-buttons">
-            <label for="login">Login</label>
-            <label for="register">Register</label>
-        </div>
         <div class="login-register-form">
-            <form id="login-form">
+            
                 <div class="input-container">
                     <label for="login-username">Username:</label>
                     <input type="text" id="login-username" name="login-username" required>
@@ -43,18 +36,8 @@
                     <input type="password" id="login-password" name="login-password" required>
                 </div>
                 <button type="submit" class="button-login">Login</button>
-            </form>
-            <form id="register-form">
-                <div class="input-container">
-                    <label for="register-username">Username:</label>
-                    <input type="text" id="register-username" name="register-username" required>
-                </div>
-                <div class="input-container">
-                    <label for="register-password">Password:</label>
-                    <input type="password" id="register-password" name="register-password" required>
-                </div>
-                <button type="submit" class="button-login">Register</button>
-            </form>
+        
+            <p>Don't have an account yet? <a href="register.html">Register here</a>.</p>
         </div>
     </div>
 </div>
