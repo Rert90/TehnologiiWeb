@@ -7,7 +7,6 @@
     <title>VisB</title>
     <link href="styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
-    <script src="charts.js" defer></script>
 </head>
 <body>
 <nav>
@@ -30,40 +29,59 @@
         <button class="button-charts" id="bar-chart">Bar Chart</button>
         <button class="button-charts" id="line-chart">Line Chart</button>
         <button class="button-charts" id="pie-chart">Pie Chart</button>
-        <button class="button-download" id="download-chart" type="button"><i class="fas fa-download"></i> Download</button>
     </div>
     <div class="charts-box">
         <h2>Selectați categoriile:</h2>
-        <form id="categories-form">
-            <div class="input-container">
-                <label for="sex">Sex:</label>
-                <select id="sex" name="sex">
-                    <option value="both">Both</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
+        <div class="input-container">
+            <label>Sex:</label>
+            <div class="dropdown">
+                <button class="dropbtn">Select Sex</button>
+                <div class="dropdown-content" id="sex-dropdown">
+                    <label><input type="checkbox" value="male"> Male</label>
+                    <label><input type="checkbox" value="female"> Female</label>
+                    <label><input type="checkbox" value="both"> Both</label>
+                </div>
             </div>
-            <div class="input-container">
-                <label for="country">Country:</label>
-                <select id="country" name="country" multiple>
-                    <option value="Romania">Romania</option>
-                    <option value="Germany">Germany</option>
-                    <option value="France">France</option>
-                    <!-- Adăugați și alte opțiuni pentru țări -->
-                </select>
+        </div>
+        <div class="input-container">
+            <label>Age:</label>
+            <div class="dropdown">
+                <button class="dropbtn">Select Age</button>
+                <div class="dropdown-content" id="age-dropdown">
+                    <label><input type="checkbox" value="0-18"> 0-18</label>
+                    <label><input type="checkbox" value="19-30"> 19-30</label>
+                    <label><input type="checkbox" value="31-50"> 31-50</label>
+                    <label><input type="checkbox" value="51+"> 51+</label>
+                </div>
             </div>
-            <div class="input-container">
-                <label for="age">Age:</label>
-                <input type="number" id="age-min" name="age-min" min="0" placeholder="Min">
-                <input type="number" id="age-max" name="age-max" min="0" placeholder="Max">
+        </div>
+        <div class="input-container">
+            <label>Year:</label>
+            <div class="dropdown">
+                <button class="dropbtn">Select Year</button>
+                <div class="dropdown-content" id="year-dropdown">
+                    <label><input type="checkbox" value="2021"> 2021</label>
+                    <label><input type="checkbox" value="2022"> 2022</label>
+                    <label><input type="checkbox" value="2023"> 2023</label>
+                    <label><input type="checkbox" value="2024"> 2024</label>
+                </div>
             </div>
-            <div class="input-container">
-                <label for="year">Year:</label>
-                <input type="number" id="year-min" name="year-min" min="0" placeholder="Min">
-                <input type="number" id="year-max" name="year-max" min="0" placeholder="Max">
+        </div>
+        <div class="input-container">
+            <label>Country:</label>
+            <div class="dropdown">
+                <button class="dropbtn">Select Countries</button>
+                <div class="dropdown-content" id="country-dropdown">
+                    <label><input type="checkbox" value="Romania"> Romania</label>
+                    <label><input type="checkbox" value="Germany"> Germany</label>
+                    <label><input type="checkbox" value="France"> France</label>
+                    <label><input type="checkbox" value="Italy"> Italy</label>
+                    <label><input type="checkbox" value="Spain"> Spain</label>
+                    <!-- Adăugați și alte țări aici -->
+                </div>
             </div>
-            <button type="submit" class="button-submit">Submit</button>
-        </form>
+        </div>
+        <a href="generate.html" class="button-submit">Generate Chart</a>
     </div>
 </div>
 </body>
