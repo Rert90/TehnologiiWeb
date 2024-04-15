@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VisB Scholarly HTML Report</title>
+    <link rel="stylesheet" href="https://w3c.github.io/scholarly-html/css/scholarly.min.css">
+    <script src="https://w3c.github.io/scholarly-html/js/scholarly.min.js"></script>
+</head>
+  
+  <body>
+<header>
+  <div class="banner">
+    <img style="width: 100%" src="slogo.jpg" width="227" height="50" alt="Scholarly HTML logo">
+</div>
+<h1>VisB Raport - Scholarly HTML</h1>
+</header>
+
+<div role="contentinfo">
+  <dl>
+      <dt>Authors</dt>
+      <dd>
+          <a href="https://github.com/EnricoMhs" target="_blank">Mihaes Enirico</a>,
+          <a href="https://github.com/Rert90" target="_blank">Olariu Robert-Costel</a>
+      </dd>
+  </dl>
+</div>
+<section typeof="sa:Abstract" id="abstract" role="doc-abstract">
+  <h2>Abstract</h2>
+  <p>
+      Acest document contine aspecte tehnice si interactiunea cu utilizatorul, pentru proiectul RoT creat in cadrul disciplinei
+      Tehnologii Web, realizat de
+      <a href="https://github.com/EnricoMhs">Mihaes Enirico</a> si
+      <a href="https://github.com/Rert90">Olariu Robert-Costel</a>  (2024).
+      <br>
+      <br>
+      <i>Universitatea Alexandru Ioan Cuza din Iasi, Facultatea de Informatica</i>
+  </p>
+</section>
+<section id="introduction" role="doc-introduction">
+  <h2>Introducere</h2>
+  <section id="purpose">
+      
+      <h3>Scop</h3>
+      <p>
+        Scopul aplicației este de a oferi utilizatorilor acces simplu la datele despre IMC și de a le permite să le vizualizeze, să le compare și să le interpreteze în diferite moduri, folosind un API propriu bazat pe datele Eurostat.
+      </p>
+  </section>
+
+  <section id="intended-audience">
+    <h3>Public ținta</h3>
+    <p>
+        In continuare vom oferi o viziune de ansamblu asupra aplicatiei, ulterior detaliind modul de interactiune cu aceasta.
+        Acest document este destinat utilizatorilor ordinari si prezinta mai ales functionalitatile de baza ale aplicatiei ,
+        cum poate folosi un utilizator aplicatia ,astfel facilitandu-i navigarea in cadrul acesteia.
+        
+    </p>
+</section>
+<section id="scope">
+  <h3>Viziune</h3>
+  <p>
+      
+      Prin intermediul acestei aplicatii se doreste sa se ofere utilzatorului o experienta cat mai dinamica si interactiva,
+      in timp ce acesta poate afla informatii despre indexul de masa corporala .
+  </p>
+</section>
+</section>
+
+<section id="description" role="doc-introduction">
+  <h2>Descriere</h2>
+  <section id="overview">
+      <h3>Descriere generala</h3>
+      <p>
+        Această aplicație web oferă utilizatorilor posibilitatea de a vizualiza și compara informații referitoare la indicele de masă corporală (IMC) folosind datele publice furnizate de Eurostat, accesate printr-un API REST/GraphQL propriu. Utilizatorii pot accesa statistici detaliate despre IMC în diferite regiuni și țări, pot efectua comparații între diferite grupuri demografice sau între diferite perioade de timp, și pot genera vizualizări grafice pentru a înțelege mai bine distribuția IMC-ului în diferite populații. Aplicația oferă cel puțin trei modalități distincte de vizualizare a datelor, inclusiv diagrame, grafice radar și hărți interactive, facilitând astfel analiza și interpretarea informațiilor legate de IMC pentru utilizatorii săi.
+      </p>
+  </section>
+  <section id="functions">
+    <h3>Functiile Produsului</h3>
+    <p>Aplicația pune la dispoziție următoarele funcționalități:</p>
+                    <ul>
+                        <li>creare cont;</li>
+                        <li>logare;</li>
+                        <li>bară de navigare;</li>
+                        <li>vizualizare statistici in diferite modalitati;</li>
+                        <li>filtrare statistici;</li>
+                        <li>descarcarea statisticilor in diferite formate;</li>
+                        <li>formular de contact;</li>
+                        <li>manipularea datelor din baza de date;</li>
+
+                    </ul>
+    
+</section>
+<section id="operating-environment">
+  <h3>Mediul de operare</h3>
+  <p>
+       Aplicatia web va rula pe orice browser cum ar fi: Google Chrome,Safari, Opera etc. Aceasta 
+      va fi disponibila pe toate sistemele de operare care suporta un browser(Windows, Linux, MacOS, Android, IOS etc.).
+  </p>
+</section>
+<section id="constraints">
+  <h3>Constrangeri</h3>
+  <p>
+    Accesul la date: Aplicația se bazează pe datele publice furnizate de Eurostat, ceea ce înseamnă că actualizările și calitatea datelor sunt dictate de disponibilitatea și fiabilitatea acestor surse.
+  </p>
+</section>
+</section>
+<section id="source-code">
+  <h2>Gestionarea Codului</h2>
+  <p>
+      Pentru gestionarea codului sursa al proiectului s-a folosit <a href="https://github.com" target="_blank">GitHub</a>.
+      Ambii membrii din echipa au realizat commituri in repository-ul proiectului. S-a utilizat un sistem de live share pentru a lucra in acelasi timp pe acelasi fisier.
+  </p>
+  <p>
+      Dupa finalizarea proiectului acesta va fi facut public iar codul sursa al acestuia va putea fi vizualizat 
+      <a href="https://github.com/Rert90/TehnologiiWeb" target="_blank">aici.</a>
+  </p>
+</section>
+
+
+
+<section id="system-features">
+ 
+  <h2>Functionalitati</h2>
+  <section id="login">
+      <h3>Autentificarea</h3>
+      <p>
+        Aceasta pagina apare doar daca utilizatorul nu s-a logat. In aceasta pagina utilizatorul
+        isi poate crea un nou cont sau se inregistreze. Ca mai apoi sa fie directionat in pagina principala si
+        sa aiba acces la pagina Admin.
+      </p>
+  </section>
+  <section id="register">
+      <h3>Inregistrarea</h3>
+      <p>
+          Pentru a se inregistra, utilizatorul trebuie sa completeze un formular cu datele sale personale
+          (username, password, admin key) si sa apese butonul de "register". In cazul in care
+          fiecare dintre aceste date este valida  utilizatorul va avea un cont nou creat si va avea acces la optiunile unui admin.
+      </p>
+  </section>
+
+  <section id="general-functionalities">
+      <h3>Charts, Contact si Home</h3>
+      <p>
+        Charts: In aceasta pagina utilizatorul poate vizualiza statisticile despre obezitate sub forma de bar chart, line chart sau pie chart
+        avand posibilitatea sa aplice diferite filtre sau sa genereze chart-ul
+        in diferite formate.
+        Filtrele pe care le poate aplica sunt: sex, tari, varsta si ani.
+      </p>
+      <p>
+        Contact: In aceasta pagina utilizatorul poate contacta administratorii fiind nevoie doar de cateva date de
+                completare a fomularului (nume, mail si mesaj) si afla locatia noastra.
+      </p>
+      <p>
+        Home: In aceasta pagina utilizatorul poate vizualiza informatii despre aplicatie si poate naviga usor prin
+              aplicatie.
+      </p>
+  </section>
+
+
+  
+  <section id="user-interface" role="doc-introduction">
+      <h2>Interfata si Motivatie</h2>
+      <p>
+          Interfata este intuitiva, astfel utilizatorul poate naviga usor prin aplicatie si sa gaseasca
+          paginile dorite din navbar, respectiv din footer. De asemenea, pentru a oferi un aspect placut 
+          aplicatiei s-a folosit un design minimalist, cu culori simpliste si un contrast bun intre ele. S-a folosit
+          fontul Arial pe toate paginile pentru un design modern si simplist.
+      </p>
+      <p>
+            Pentru structurarea elementelor din fiecare pagina s-a folosit "display:flex", pentru un design placut si responsive
+            al paginii .
+  
+      </p>
+      <p>
+          Am structurat stilul aplicatiei intr-un singur fisier CSS, pentru a avea un cod mai organizat si usor de inteles.
+      </p>
+  </section>
+</section>
+
+<section id="sarcini">
+  <h2 > Repartizarea sarcinilor</h2>
+  <div>
+      <h3>Mihaes Enirico</h3>
+      <ul>
+          <ul>
+              <p>
+                  Front-end:
+              </p>
+              <li>
+                  <p>
+                      &emsp;&emsp;Realizarea paginii pentru home-page.
+                  </p>
+              </li>
+              <li>
+                  <p>
+                      &emsp;&emsp;Realizarea paginii pentru sign-in.
+                  </p>
+              </li>
+              <li>
+                  <p>
+                      &emsp;&emsp;Realizarea paginii register.
+                  </p>
+              </li>
+              <li>
+                  <p>&emsp;&emsp; Realizarea paginilor pentru login si register.</p>
+              </li>
+              <li>
+                  <p>&emsp;&emsp;Realizarea detaliilor de design(logo, culori).</p>
+              </li>
+          </ul>
+  </div>
+  <div>
+      <h3>Olariu Robert-Costel</h3>
+      <ul>
+          <ul>
+              <p>
+                  Front-end:
+              </p>
+              <li>
+                  <p>
+                      &emsp;&emsp;Realizarea paginii pentru charts.
+                  </p>
+              </li>
+              <li>
+                  <p>
+                      &emsp;&emsp;Realizarea paginii pentru contact.
+                  </p>
+              </li>
+              <li>
+                  <p>
+                      &emsp;&emsp;Realizarea footer-ului.
+                  </p>
+              </li>
+          </ul>        
+      </ul>
+  </div>
+</section>
+
+<section id="references" role="doc-bibliography">
+  <h2>Resurse </h2>
+  <ul>
+      <li>https://speckyboy.com/login-pages-html5-css/</li>
+      <li>https://freefrontend.com/</li>
+      <li>https://w3c.github.io/scholarly-html/#abstract-etc</li>
+      <li>https://www.w3schools.com/html/default.asp</li>
+      <li>https://www.w3schools.com/css/default.asp</li>
+      <li>https://profs.info.uaic.ro/~andrei.panu/</li>
+      <li>https://developer.mozilla.org/en-US/docs/Web/HTML</li>
+  </ul>
+</section>
+  </body>
+</html>
