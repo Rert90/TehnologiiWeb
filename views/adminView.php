@@ -1,13 +1,19 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
-    header("Location: login.php");
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../public/login.php");
     exit();
 }
 
-$directory = 'C:/xampp/htdocs/TehnologiiWeb'; 
+$directory = realpath(dirname(__FILE__) . '/../..'); // Ajustăm calea pentru a fi relativă la locația scriptului
+if ($directory === false) {
+    die('Failed to resolve project directory path.');
+}
 $files = scandir($directory);
+if ($files === false) {
+    die('Failed to scan project directory.');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -26,6 +32,8 @@ $files = scandir($directory);
     </div>
     <ul>
         <li><a href="../public/index.php"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="../public/charts.php"><i class="fas fa-chart-bar"></i> Charts</a></li>
+        <li><a href="../public/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
         <li><a href="../public/logout.php"><i class="fas fa-sign-out-alt"></i> Disconnect</a></li>
     </ul>
 </nav>

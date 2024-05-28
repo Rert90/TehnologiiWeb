@@ -20,5 +20,12 @@ class UserModel {
         $stmt->bindParam(':admin_key', $adminKey);
         $stmt->execute();
     }
+
+    public function checkAdminKey($adminKey) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE BINARY admin_key = BINARY :admin_key");
+        $stmt->bindParam(':admin_key', $adminKey);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 ?>

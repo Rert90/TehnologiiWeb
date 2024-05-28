@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -17,7 +18,11 @@
         <li><a href="../public/index.php"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="../public/charts.php"><i class="fas fa-chart-bar"></i> Charts</a></li>
         <li><a href="../public/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
-        <li><a href="../public/login.php"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+        <?php if (isset($_SESSION['username'])): ?>
+            <li><a href="../public/admin.php"><i class="fa fa-black-tie" ></i>  Admin</a></li>
+        <?php else: ?>
+            <li><a href="../public/login.php"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+        <?php endif; ?>
     </ul>
 </nav>
 <div class="login-register-section">

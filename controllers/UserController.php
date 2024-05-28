@@ -34,7 +34,7 @@ class UserController {
             $username = $_POST['register-username'];
             $password = $_POST['register-password'];
             $confirmPassword = $_POST['register-password-confirm'];
-            $adminKey = $_POST['admin-key'];
+            $adminKey = trim($_POST['admin-key']); // Aplicăm trim pentru a elimina spațiile
 
             if ($password !== $confirmPassword) {
                 $error = 'Passwords do not match';
@@ -43,9 +43,15 @@ class UserController {
                 $error = 'Admin key is required';
                 include '../views/registerView.php';
             } else {
-                $this->userModel->addAdmin($username, $password, $adminKey);
-                header('Location: ../public/login.php');
-                exit();
+                $existingAdminKey = $this->userModel->checkAdminKey($adminKey);
+                if ($existingAdminKey) {
+                    $this->userModel->addAdmin($username, $password, $adminKey);
+                    header('Location: ../public/login.php');
+                    exit();
+                } else {
+                    $error = 'Invalid admin key';
+                    include '../views/registerView.php';
+                }
             }
         } else {
             include '../views/registerView.php';

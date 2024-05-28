@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -39,7 +40,7 @@
                 <label for="admin-key"><i class="fas fa-key"></i> Admin Key:</label>
                 <input type="text" id="admin-key" name="admin-key" required>
             </div>
-            <button type="submit" class="button-register"><i class="fas fa-user-plus"></i> Register</button>
+            <button type="submit" class="button-login"><i class="fas fa-user-plus"></i> Register</button>
             <?php if (isset($error)): ?>
                 <p style="color:red;"><?= $error ?></p>
             <?php endif; ?>
