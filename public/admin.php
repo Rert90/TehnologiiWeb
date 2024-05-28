@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    header("Location: signin.html");
+    header("Location: ../public/login.php");
     exit();
 }
 
@@ -25,10 +25,10 @@ $files = scandir($directory);
         <img src="logo.jpg" alt="Logo proiect">
     </div>
     <ul>
-        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="charts.html"><i class="fas fa-chart-bar"></i> Charts</a></li>
-        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Disconnect</a></li>
+    <li><a href="../public/index.php"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="../public/charts.php"><i class="fas fa-chart-bar"></i> Charts</a></li>
+        <li><a href="../public/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="../public/logout.php"><i class="fas fa-sign-out-alt"></i> Disconnect</a></li>
     </ul>
 </nav>
 <div class="admin-container">

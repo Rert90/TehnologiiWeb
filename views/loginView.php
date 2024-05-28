@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-    <link rel="shortcut icon" type="image/jpg" href="logomin.jpg"/>
+    <link rel="shortcut icon" type="image/jpg" href="../public/images/logomin.jpg"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - VisB</title>
-    <link href="styles.css" rel="stylesheet" type="text/css">
+    <link href="../public/css/styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav>
     <div class="logo">
-        <img src="logo.jpg" alt="Logo proiect">
+        <img src="../public/images/logo.jpg" alt="Logo proiect">
     </div>
     <ul>
-        <li><a href="index.php"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="charts.html"><i class="fas fa-chart-bar"></i> Charts</a></li>
-        <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-        <li><a href="signin.php"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
+        <li><a href="../public/index.php"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="../public/charts.php"><i class="fas fa-chart-bar"></i> Charts</a></li>
+        <li><a href="../public/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="../public/login.php"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
     </ul>
 </nav>
-<div class="floating-logo">
-    <img src="logomin.jpg" alt="Logo proiect">
-</div>
 <div class="login-register-section">
     <div class="login-register-container">
-        <form id="login-form" class="login-register-form" action="login.php" method="post">
+        <form id="login-form" class="login-register-form" action="../public/login.php" method="post">
             <div class="input-container">
                 <label for="login-username"><i class="fas fa-user"></i> Username:</label>
                 <input type="text" id="login-username" name="login-username" required>
@@ -35,8 +32,11 @@
                 <input type="password" id="login-password" name="login-password" required>
             </div>
             <button type="submit" class="button-login"><i class="fas fa-sign-in-alt"></i> Login</button>
-            <p>Don't have an account yet? <a href="register.html">Register here</a>.</p>
+            <?php if (isset($error)): ?>
+                <p style="color:red;"><?= $error ?></p>
+            <?php endif; ?>
         </form>
+        <p>Don't have an account? <a href="../public/register.php">Register here</a></p> <!-- Corectat aici -->
     </div>
 </div>
 <footer class="footer">
@@ -51,5 +51,4 @@
         <a href="https://www.youtube.com/" class="footer-link" target="_blank"><i class="fab fa-youtube footer-icon"></i></a>
     </div>
 </footer>
-</body>
-</html>
+</
