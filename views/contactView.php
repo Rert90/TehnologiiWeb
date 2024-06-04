@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} ?>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -19,7 +21,7 @@
         <li><a href="../public/charts.php"><i class="fas fa-chart-bar"></i> Charts</a></li>
         <li><a href="../public/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
         <?php if (isset($_SESSION['username'])): ?>
-            <li><a href="../public/admin.php"><i class="fa fa-black-tie" ></i>  Admin</a></li>
+            <li><a href="../public/admin.php"><i class="fa fa-black-tie" ></i> Admin</a></li>
         <?php else: ?>
             <li><a href="../public/login.php"><i class="fas fa-sign-in-alt"></i> Sign In</a></li>
         <?php endif; ?>
@@ -45,6 +47,17 @@
                     <label for="message"><i class="fas fa-pencil-alt"></i> Message:</label>
                     <textarea id="message" name="message" placeholder="Your message..." required></textarea>
                 </li>
+                <?php if (isset($_SESSION['message'])): ?>
+                    <li>
+                        <div class="alert <?php echo $_SESSION['msg_type']; ?>">
+                            <?php
+                            echo $_SESSION['message'];
+                            unset($_SESSION['message']);
+                            unset($_SESSION['msg_type']);
+                            ?>
+                        </div>
+                    </li>
+                <?php endif; ?>
                 <li>
                     <button class="button-contact" type="submit"><i class="fas fa-paper-plane"></i> Submit</button>
                 </li>

@@ -1,7 +1,7 @@
 <?php
 $dsn = 'mysql:host=localhost;dbname=visb_db';
 $username = 'root';
-$password = ''; // Completează parola pentru utilizatorul root dacă este necesară
+$password = ''; 
 
 try {
     $db = new PDO($dsn, $username, $password);

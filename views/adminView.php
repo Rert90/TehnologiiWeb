@@ -1,18 +1,23 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../public/login.php");
     exit();
 }
 
-$directory = realpath(dirname(__FILE__) . '/../..'); // Ajustăm calea pentru a fi relativă la locația scriptului
-if ($directory === false) {
-    die('Failed to resolve project directory path.');
-}
-$files = scandir($directory);
-if ($files === false) {
-    die('Failed to scan project directory.');
+require_once '../config/db.php';
+
+try {
+    $pdo = new PDO('mysql:host=localhost;dbname=visb_db', 'root', '');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $pdo->query("SELECT name, email, message, created_at FROM messages ORDER BY created_at DESC");
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die('Failed to fetch messages: ' . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -39,18 +44,28 @@ if ($files === false) {
 </nav>
 <div class="admin-container">
     <h2>Admin Dashboard</h2>
-    <h3>Project Files</h3>
-    <ul>
-        <?php if ($files !== false): ?>
-            <?php foreach ($files as $file): ?>
-                <?php if ($file !== '.' && $file !== '..'): ?>
-                    <li><a href="<?php echo $directory . '/' . $file; ?>" target="_blank"><?php echo $file; ?></a></li>
-                <?php endif; ?>
+    
+    <h3>Received Messages</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($messages as $message): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($message['name']); ?></td>
+                    <td><?php echo htmlspecialchars($message['email']); ?></td>
+                    <td><?php echo htmlspecialchars($message['message']); ?></td>
+                    <td><?php echo htmlspecialchars($message['created_at']); ?></td>
+                </tr>
             <?php endforeach; ?>
-        <?php else: ?>
-            <p>Could not access the project files directory.</p>
-        <?php endif; ?>
-    </ul>
+        </tbody>
+    </table>
 </div>
 <footer class="footer">
     <div class="footer-section">
