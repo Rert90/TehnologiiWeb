@@ -34,7 +34,7 @@ class UserController {
             $username = $_POST['register-username'];
             $password = $_POST['register-password'];
             $confirmPassword = $_POST['register-password-confirm'];
-            $adminKey = trim($_POST['admin-key']); // Aplicăm trim pentru a elimina spațiile
+            $adminKey = trim($_POST['admin-key']); 
 
             if ($password !== $confirmPassword) {
                 $error = 'Passwords do not match';

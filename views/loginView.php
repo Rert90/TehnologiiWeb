@@ -43,7 +43,7 @@
                 <p style="color:red;"><?= $error ?></p>
             <?php endif; ?>
         </form>
-        <p>Don't have an account? <a href="../public/register.php">Register here</a></p> <!-- Corectat aici -->
+        <p>Don't have an account? <a href="../public/register.php">Register here</a></p>
     </div>
 </div>
 <footer class="footer">
