@@ -15,10 +15,13 @@ class ApiController {
     public function getBmiData() {
         $criteria = [];
         if (isset($_GET['country']) && $_GET['country'] !== 'all') {
-            $criteria['country'] = $_GET['country'];
+            $criteria['country'] = explode(',', $_GET['country']);
         }
         if (isset($_GET['year'])) {
-            $criteria['year'] = $_GET['year'];
+            $criteria['year'] = explode(',', $_GET['year']);
+        }
+        if (isset($_GET['bmi'])) {
+            $criteria['bmi'] = $_GET['bmi'];
         }
 
         $stmt = $this->bmiModel->getBmiData($criteria);
@@ -38,6 +41,12 @@ class ApiController {
         $years = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($years);
     }
+
+    public function getBmi() {
+        $stmt = $this->bmiModel->getBmi();
+        $bmi = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($bmi);
+    }
 }
 
 header("Content-Type: application/json; charset=UTF-8");
@@ -51,6 +60,8 @@ switch($request_method) {
             $apiController->getCountries();
         } elseif ($action == 'getYears') {
             $apiController->getYears();
+        } elseif ($action == 'getBmi') {
+            $apiController->getBmi();
         } else {
             $apiController->getBmiData();
         }

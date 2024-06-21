@@ -1,6 +1,3 @@
-<?php if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-} ?>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -11,6 +8,15 @@
     <link href="../public/css/styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .checkbox-container {
+            column-count: 3;
+            column-gap: 20px;
+        }
+        .checkbox-container label {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <nav>
@@ -37,18 +43,19 @@
             <option value="line">Line</option>
             <option value="pie">Pie</option>
         </select>
-        
+
         <label for="filter-country">Filter by Country:</label>
-        <select id="filter-country" name="filter-country">
-            <option value="all">All</option>
-        </select>
+        <div id="filter-country" class="checkbox-container"></div>
 
         <label for="filter-year">Filter by Year:</label>
-        <select id="filter-year" name="filter-year"></select>
-        
+        <div id="filter-year" class="checkbox-container"></div>
+
+        <label for="filter-bmi-category">Filter by BMI Category:</label>
+        <div id="filter-bmi-category" class="checkbox-container"></div>
+
         <button type="button" onclick="generateChart()">Generate Chart</button>
     </form>
-    
+
     <canvas id="bmi-chart"></canvas>
     <div class="export-buttons">
         <button onclick="exportChart('csv')">Export CSV</button>
@@ -57,59 +64,87 @@
     </div>
 </div>
 <script>
-async function populateSelectOptions(selectId, url, defaultOption = null) {
+async function populateCheckboxes(containerId, url, isBmiCategory = false) {
     const response = await fetch(url);
     const data = await response.json();
-    const select = document.getElementById(selectId);
-    select.innerHTML = ''; 
-
-    if (defaultOption) {
-        const defaultOpt = document.createElement('option');
-        defaultOpt.value = defaultOption.toLowerCase();
-        defaultOpt.innerHTML = defaultOption;
-        select.appendChild(defaultOpt);
-    }
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
 
     data.forEach(item => {
-        const opt = document.createElement('option');
-        opt.value = item.geo ? item.geo.toLowerCase() : item.year;
-        opt.innerHTML = item.geo ? item.geo : item.year;
-        select.appendChild(opt);
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = item.geo ? item.geo : item.year ? item.year : item.bmi;
+        checkbox.name = containerId;
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(isBmiCategory ? getBmiLabel(item.bmi) : (item.geo ? item.geo : item.year)));
+        container.appendChild(label);
     });
+}
+
+function getBmiLabel(bmiValue) {
+    switch (bmiValue) {
+        case 'BMI25-29':
+            return 'Overweight';
+        case 'BMI_GE25':
+            return 'Obese';
+        case 'BMI_GE30':
+            return 'Pre-Obese';
+        default:
+            return bmiValue;
+    }
 }
 
 function generateChart() {
     const chartType = document.getElementById('chart-type').value;
-    const filterCountry = document.getElementById('filter-country').value;
-    const filterYear = document.getElementById('filter-year').value;
+    const filterCountry = Array.from(document.querySelectorAll('#filter-country input:checked')).map(checkbox => checkbox.value);
+    const filterYear = Array.from(document.querySelectorAll('#filter-year input:checked')).map(checkbox => checkbox.value);
+    const filterBmiCategory = Array.from(document.querySelectorAll('#filter-bmi-category input:checked')).map(checkbox => checkbox.value);
 
     const params = new URLSearchParams();
-    if (filterCountry !== 'all') {
-        params.append('country', filterCountry);
+    if (filterCountry.length > 0) {
+        params.append('country', filterCountry.join(','));
     }
-    if (filterYear) {
-        params.append('year', filterYear);
+    if (filterYear.length > 0) {
+        params.append('year', filterYear.join(','));
+    }
+    if (filterBmiCategory.length > 0) {
+        params.append('bmi', filterBmiCategory.join(','));
     }
 
     fetch('../public/api.php?' + params.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data); 
+            console.log(data);
             const labels = data.map(item => item.geo);
-            const bmiValues = data.map(item => item['year_' + filterYear]);
+            const colors = [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ];
+            const borderColors = [
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ];
+            const datasets = filterYear.map((year, index) => ({
+                label: `BMI Data for ${year}`,
+                data: data.map(item => item['year_' + year]),
+                backgroundColor: colors[index % colors.length],
+                borderColor: borderColors[index % borderColors.length],
+                borderWidth: 1
+            }));
 
             const ctx = document.getElementById('bmi-chart').getContext('2d');
             new Chart(ctx, {
                 type: chartType,
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: `BMI Data for ${filterYear}`,
-                        data: bmiValues,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
+                    datasets: datasets
                 },
                 options: {
                     scales: {
@@ -126,18 +161,21 @@ function generateChart() {
 function exportChart(format) {
     const canvas = document.getElementById('bmi-chart');
     const link = document.createElement('a');
-    
+
     if (format === 'csv') {
-        const chartType = document.getElementById('chart-type').value;
-        const filterCountry = document.getElementById('filter-country').value;
-        const filterYear = document.getElementById('filter-year').value;
+        const filterCountry = Array.from(document.querySelectorAll('#filter-country input:checked')).map(checkbox => checkbox.value);
+        const filterYear = Array.from(document.querySelectorAll('#filter-year input:checked')).map(checkbox => checkbox.value);
+        const filterBmiCategory = Array.from(document.querySelectorAll('#filter-bmi-category input:checked')).map(checkbox => checkbox.value);
 
         const params = new URLSearchParams();
-        if (filterCountry !== 'all') {
-            params.append('country', filterCountry);
+        if (filterCountry.length > 0) {
+            params.append('country', filterCountry.join(','));
         }
-        if (filterYear) {
-            params.append('year', filterYear);
+        if (filterYear.length > 0) {
+            params.append('year', filterYear.join(','));
+        }
+        if (filterBmiCategory.length > 0) {
+            params.append('bmi', filterBmiCategory.join(','));
         }
 
         fetch('../public/api.php?' + params.toString())
@@ -145,18 +183,18 @@ function exportChart(format) {
             .then(data => {
                 const csvContent = "data:text/csv;charset=utf-8,"
                     + "Country,BMI\n"
-                    + data.map(item => `${item.geo},${item['year_' + filterYear]}`).join("\n");
+                    + data.map(item => filterYear.map(year => `${item.geo},${item['year_' + year]}`).join("\n")).join("\n");
 
                 link.setAttribute('href', encodeURI(csvContent));
                 link.setAttribute('download', 'bmi_data.csv');
                 link.click();
             });
-        
+
     } else if (format === 'webp') {
         link.href = canvas.toDataURL('image/webp');
         link.download = 'chart.webp';
         link.click();
-        
+
     } else if (format === 'svg') {
         link.href = canvas.toDataURL('image/svg+xml');
         link.download = 'chart.svg';
@@ -165,8 +203,9 @@ function exportChart(format) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    populateSelectOptions('filter-country', '../public/api.php?action=getCountries', 'All');
-    populateSelectOptions('filter-year', '../public/api.php?action=getYears');
+    populateCheckboxes('filter-country', '../public/api.php?action=getCountries');
+    populateCheckboxes('filter-year', '../public/api.php?action=getYears');
+    populateCheckboxes('filter-bmi-category', '../public/api.php?action=getBmi', true);
 });
 </script>
 </body>
