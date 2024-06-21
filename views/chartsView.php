@@ -1,3 +1,6 @@
+<?php if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+} ?>
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -45,7 +48,12 @@
         </select>
 
         <label for="filter-country">Filter by Country:</label>
-        <div id="filter-country" class="checkbox-container"></div>
+        <div id="filter-country" class="checkbox-container">
+            <label>
+                <input type="checkbox" id="select-all-countries" onclick="toggleSelectAllCountries()">
+                Select All
+            </label>
+        </div>
 
         <label for="filter-year">Filter by Year:</label>
         <div id="filter-year" class="checkbox-container"></div>
@@ -64,11 +72,17 @@
     </div>
 </div>
 <script>
+let chartInstance = null;
+
 async function populateCheckboxes(containerId, url, isBmiCategory = false) {
     const response = await fetch(url);
     const data = await response.json();
     const container = document.getElementById(containerId);
-    container.innerHTML = '';
+    if (containerId === 'filter-country') {
+        container.innerHTML = '<label><input type="checkbox" id="select-all-countries" onclick="toggleSelectAllCountries()"> Select All</label>';
+    } else {
+        container.innerHTML = '';
+    }
 
     data.forEach(item => {
         const label = document.createElement('label');
@@ -95,6 +109,16 @@ function getBmiLabel(bmiValue) {
     }
 }
 
+function toggleSelectAllCountries() {
+    const selectAllCheckbox = document.getElementById('select-all-countries');
+    const checkboxes = document.querySelectorAll('#filter-country input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        if (checkbox !== selectAllCheckbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+        }
+    });
+}
+
 function generateChart() {
     const chartType = document.getElementById('chart-type').value;
     const filterCountry = Array.from(document.querySelectorAll('#filter-country input:checked')).map(checkbox => checkbox.value);
@@ -115,7 +139,10 @@ function generateChart() {
     fetch('../public/api.php?' + params.toString())
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
             const labels = data.map(item => item.geo);
             const colors = [
                 'rgba(75, 192, 192, 0.2)',
@@ -140,7 +167,7 @@ function generateChart() {
             }));
 
             const ctx = document.getElementById('bmi-chart').getContext('2d');
-            new Chart(ctx, {
+            chartInstance = new Chart(ctx, {
                 type: chartType,
                 data: {
                     labels: labels,

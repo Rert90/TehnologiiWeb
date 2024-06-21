@@ -319,66 +319,7 @@ th {
   background-color: #0056b3;
 }
 
-.charts-container {
-  display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  margin-top: 1.25em;
-  padding-bottom: 5em;
-}
 
-.charts-box {
-  width: 45%;
-  padding: 1.25em;
-  box-shadow: 0 0 0.6em rgba(0, 0, 0, 0.1);
-}
-
-.button-charts {
-  background-color: #ccc;
-  color: white;
-  border: none;
-  padding: 0.5em 1em;
-  font-size: 1em;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.button-charts:hover {
-  background-color: #033a77;
-}
-
-.a-generate {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 0.5em 1em;
-  font-size: 1em;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-}
-
-.a-generate:hover {
-  background-color: #033a77;
-}
-
-.charts-box ul {
-  padding: 0;
-  list-style-type: none;
-}
-
-.charts-box ul li {
-  margin-bottom: 0.6em;
-  color: #555;
-}
-
-.charts-box iframe {
-  width: 100%;
-}
-
-.charts-box {
-  text-align: center;
-}
 
 .dropdown {
   position: relative;
@@ -558,3 +499,7 @@ th {
 .footer:hover ~ .floating-logo {
     bottom: calc(2.6em + 100px); 
 }
+
+
+
+
