@@ -37,19 +37,23 @@
     <h3>Caracteristici principale:</h3>
     <ul>
         <li>Vizualizare interactivă: Experimentați grafice interactive și instrumente de vizualizare care vă permit să înțelegeți și să explorați diferite aspecte ale BMI.</li>
-        <li>Comparare facilă: Comparați nivelurile BMI între țări și în funcție de sex, pentru a identifica tendințe și diferențe semnificative.</li>
-        <li>Acces rapid la date: Utilizați API-ul nostru REST/GraphQL pentru a accesa datele brute și a le integra în propriile dvs. aplicații sau analize.</li>
-        <li>Actualizări constante: Datele noastre sunt actualizate periodic, asigurându-vă că aveți întotdeauna cele mai recente informații disponibile.</li>
+        <li>Comparare facilă: Comparați nivelurile BMI între țări in funcție de ani  pentru a identifica tendințe și diferențe semnificative.</li>
     </ul>
     <p>Începeți să explorați acum și să descoperiți insigiențele interesante despre BMI în întreaga Europă și dincolo!</p>
-    <div class="bmi-box">
-        <p class="bmi-text">BMI</p>
-        <p class="bmi-subtext">(apropie cursorul)</p>
-        <div class="bmi-image">
-            <img src="../public/images/imaginebmi.png" alt="Imagine BMI">
-        </div>
+   
+    <div class="bmi-calculator-container">
+    <h2>Calculator BMI</h2>
+    <div class="bmi-calculator">
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" name="height" min="0" step="0.1">
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" name="weight" min="0" step="0.1">
+        <button onclick="calculateBMI()">Calculate BMI</button>
+        <div id="bmi-result"></div>
     </div>
+</div>
 </section>
+
 <footer class="footer">
     <div class="footer-section">
         <h3 class="footer-heading">About Us</h3>
@@ -62,5 +66,31 @@
         <a href="https://www.youtube.com/" class="footer-link" target="_blank"><i class="fab fa-youtube footer-icon"></i></a>
     </div>
 </footer>
+<script>
+function calculateBMI() {
+    const height = document.getElementById('height').value;
+    const weight = document.getElementById('weight').value;
+
+    if (height && weight) {
+        const heightInMeters = height / 100;
+        const bmi = weight / (heightInMeters * heightInMeters);
+        let category = '';
+
+        if (bmi < 18.5) {
+            category = 'Underweight';
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            category = 'Normal weight';
+        } else if (bmi >= 25 && bmi < 29.9) {
+            category = 'Overweight';
+        } else {
+            category = 'Obese';
+        }
+
+        document.getElementById('bmi-result').innerHTML = `Your BMI is ${bmi.toFixed(2)} (${category})`;
+    } else {
+        document.getElementById('bmi-result').innerHTML = 'Please enter valid height and weight values.';
+    }
+}
+</script>
 </body>
 </html>
