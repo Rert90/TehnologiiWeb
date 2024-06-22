@@ -30,6 +30,19 @@
             display: none;
             margin-top: 20px;
         }
+        .select-all-btn {
+            display: block;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .select-all-btn:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -60,10 +73,7 @@
 
         <label for="filter-country">Filter by Country:</label>
         <div id="filter-country" class="checkbox-container">
-            <label>
-                <input type="checkbox" id="select-all-countries" onclick="toggleSelectAllCountries()">
-                Select All
-            </label>
+            <button type="button" class="select-all-btn" onclick="toggleSelectAllCountries()">Select All</button>
         </div>
 
         <label for="filter-year">Filter by Year:</label>
@@ -96,6 +106,7 @@
 </div>
 <script>
 let chartInstance = null;
+let allSelected = false;
 const countryMapping = {
     AT: 'Austria',
     BE: 'Belgium',
@@ -135,50 +146,18 @@ const countryMapping = {
 };
 
 const colors = [
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)',
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(255, 99, 132, 0.2)',
-    'rgba(54, 162, 235, 0.2)',
-    'rgba(255, 206, 86, 0.2)',
-    'rgba(75, 192, 192, 0.2)',
-    'rgba(153, 102, 255, 0.2)',
-    'rgba(255, 159, 64, 0.2)',
+    'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)',
+    'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(199, 199, 199, 0.2)', 'rgba(83, 102, 255, 0.2)',
+    'rgba(255, 99, 71, 0.2)', 'rgba(60, 179, 113, 0.2)', 'rgba(135, 206, 250, 0.2)', 'rgba(218, 165, 32, 0.2)',
+    'rgba(220, 20, 60, 0.2)', 'rgba(0, 191, 255, 0.2)', 'rgba(128, 0, 128, 0.2)', 'rgba(34, 139, 34, 0.2)',
+    'rgba(240, 230, 140, 0.2)', 'rgba(139, 0, 0, 0.2)', 'rgba(72, 61, 139, 0.2)', 'rgba(233, 150, 122, 0.2)',
+    'rgba(100, 149, 237, 0.2)', 'rgba(255, 215, 0, 0.2)', 'rgba(75, 0, 130, 0.2)', 'rgba(143, 188, 143, 0.2)',
+    'rgba(0, 250, 154, 0.2)', 'rgba(199, 21, 133, 0.2)', 'rgba(65, 105, 225, 0.2)', 'rgba(210, 105, 30, 0.2)',
+    'rgba(70, 130, 180, 0.2)', 'rgba(244, 164, 96, 0.2)', 'rgba(255, 20, 147, 0.2)', 'rgba(112, 128, 144, 0.2)',
+    'rgba(255, 69, 0, 0.2)', 'rgba(139, 69, 19, 0.2)', 'rgba(0, 128, 128, 0.2)', 'rgba(255, 140, 0, 0.2)'
 ];
 
-const borderColors = [
-    'rgba(75, 192, 192, 1)',
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 159, 64, 1)',
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 159, 64, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(255, 159, 64, 1)',
-];
+const borderColors = colors.map(color => color.replace('0.2', '1'));
 
 async function populateCheckboxes(containerId, url, isBmiCategory = false) {
     const response = await fetch(url);
@@ -186,14 +165,23 @@ async function populateCheckboxes(containerId, url, isBmiCategory = false) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
 
+    if (containerId === 'filter-country') {
+        const selectAllButton = document.createElement('button');
+        selectAllButton.type = 'button';
+        selectAllButton.className = 'select-all-btn';
+        selectAllButton.innerText = 'Select All';
+        selectAllButton.onclick = toggleSelectAllCountries;
+        container.appendChild(selectAllButton);
+    }
+
     data.forEach(item => {
         const label = document.createElement('label');
         const checkbox = document.createElement('input');
         checkbox.type = isBmiCategory ? 'radio' : 'checkbox';
         checkbox.value = item.geo ? item.geo : item.year ? item.year : item.bmi;
-        checkbox.name = isBmiCategory ? 'bmi-category' : containerId; // Ensure radio buttons have the same name
+        checkbox.name = isBmiCategory ? 'bmi-category' : containerId; 
         label.appendChild(checkbox);
-        const countryName = countryMapping[item.geo] || item.geo; // Get full country name or use the value itself if not found
+        const countryName = countryMapping[item.geo] || item.geo; 
         label.appendChild(document.createTextNode(isBmiCategory ? getBmiLabel(item.bmi) : (item.geo ? countryName : item.year)));
         container.appendChild(label);
     });
@@ -213,13 +201,12 @@ function getBmiLabel(bmiValue) {
 }
 
 function toggleSelectAllCountries() {
-    const selectAllCheckbox = document.getElementById('select-all-countries');
     const checkboxes = document.querySelectorAll('#filter-country input[type="checkbox"]');
+    allSelected = !allSelected;
     checkboxes.forEach(checkbox => {
-        if (checkbox !== selectAllCheckbox) {
-            checkbox.checked = selectAllCheckbox.checked;
-        }
+        checkbox.checked = allSelected;
     });
+    document.querySelector('.select-all-btn').innerText = allSelected ? 'Deselect All' : 'Select All';
 }
 
 function generateChart() {

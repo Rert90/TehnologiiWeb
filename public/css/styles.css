@@ -545,6 +545,11 @@ th {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.chart-box {
+  display: none;
+  margin-top: 20px;
+}
+
 .checkbox-container label {
   display: block;
   margin-bottom: 10px;
@@ -554,6 +559,38 @@ th {
   width: 100%;
   height: 500px;
   margin-top: 2em;
+}
+
+.checkbox-container {
+    column-count: 3;
+    column-gap: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.checkbox-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+.chart-box {
+    display: none;
+    margin-top: 20px;
+}
+.select-all-btn {
+    display: block;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.select-all-btn:hover {
+    background-color: #45a049;
 }
 
 #bmi-chart {
