@@ -11,6 +11,26 @@
     <link href="../public/css/styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .checkbox-container {
+            column-count: 3;
+            column-gap: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .checkbox-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .chart-box {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 <nav>
@@ -66,7 +86,7 @@
     </form>
 </div>
 
-<div class="chart-box">
+<div class="chart-box" id="chart-box">
     <canvas id="bmi-chart"></canvas>
     <div class="export-buttons">
         <button class="button-download" onclick="exportChart('csv')">Export CSV</button>
@@ -239,7 +259,7 @@ function generateChart() {
                 chartInstance.destroy();
             }
 
-            const labels = data.map(item => countryMapping[item.geo] || item.geo);
+            const labels = filterYear;
             const datasets = filterCountry.map((country, index) => ({
                 label: countryMapping[country] || country,
                 data: filterYear.map(year => {
@@ -258,7 +278,7 @@ function generateChart() {
             chartInstance = new Chart(ctx, {
                 type: chartType,
                 data: {
-                    labels: filterYear,
+                    labels: labels,
                     datasets: datasets
                 },
                 options: {
@@ -270,6 +290,7 @@ function generateChart() {
                 }
             });
 
+            document.getElementById('chart-box').style.display = 'block';
             document.querySelector('.export-buttons').style.display = 'block';
         })
         .catch(error => console.error('Error:', error));
