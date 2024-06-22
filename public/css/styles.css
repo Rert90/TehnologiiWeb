@@ -319,8 +319,6 @@ th {
   background-color: #0056b3;
 }
 
-
-
 .dropdown {
   position: relative;
   display: inline-block;
@@ -386,12 +384,7 @@ th {
   padding-bottom: 2em;
 }
 
-.chart-img {
-  width: 50%;
-  border-radius: 0.6em;
-  box-shadow: 0 0 0.6em rgba(0, 0, 0, 0.1);
-}
-
+/* Footer Styles */
 .footer {
   background-color: #333; 
   position: fixed;
@@ -429,77 +422,209 @@ th {
   margin-right: 0.625em; 
 }
 
+.footer:hover ~ .floating-logo {
+  bottom: calc(2.6em + 100px); 
+}
+
+/* Media Queries */
 @media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-    }
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    nav ul {
-        flex-direction: column;
-        width: 100%;
-    }
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+  }
 
-    nav ul li {
-        width: 100%;
-        text-align: center;
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
+  nav ul li {
+    width: 100%;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 
-    .contact-container {
-        flex-direction: column;
-        align-items: center;
-    }
+  .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .contact-box {
-        width: 90%;
-        margin-bottom: 20px;
-    }
+  .contact-box {
+    width: 90%;
+    margin-bottom: 20px;
+  }
 
-    .charts-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .charts-box {
-        width: 90%;
-        margin-bottom: 20px;
-    }
+  .charts-box {
+    width: 90%;
+    margin-bottom: 20px;
+  }
 }
 
 @media (max-width: 480px) {
-    nav ul li a {
-        padding: 10px;
-    }
+  nav ul li a {
+    padding: 10px;
+  }
 
-    .contact-box form input[type="text"],
-    .contact-box form input[type="email"],
-    .contact-box form textarea {
-        width: 100%;
-    }
+  .contact-box form input[type="text"],
+  .contact-box form input[type="email"],
+  .contact-box form textarea {
+    width: 100%;
+  }
 
-    .bmi-box .bmi-image img {
-        height: 15em;
-        width: 15em;
-    }
+  .bmi-box .bmi-image img {
+    height: 15em;
+    width: 15em;
+  }
 
-    .footer {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 
-    .footer-section,
-    .footer-follow {
-        margin-right: 0;
-    }
+  .footer-section,
+  .footer-follow {
+    margin-right: 0;
+  }
 }
 
-.footer:hover ~ .floating-logo {
-    bottom: calc(2.6em + 100px); 
+/* Styles for the charts page */
+.charts-container {
+  background-color: #fff;
+  padding: 2em;
+  margin-top: 2em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 80%;
+  max-width: 1200px;
+  text-align: center;
+  margin: auto;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.styled-select, .styled-button {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1em;
+  margin: 5px 0;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.styled-button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.styled-button:hover {
+  background-color: #0056b3;
+}
+
+.export-buttons {
+  margin-top: 1.5em;
+  display: none;
+}
+
+.checkbox-container {
+  column-count: 3;
+  column-gap: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.checkbox-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: 500px;
+  margin-top: 2em;
+}
+
+#bmi-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.export-buttons {
+  margin-top: 1em;
+  display: none;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group select, .form-group button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
 
 
 
+.checkbox-container {
+  column-count: 2;
+  column-gap: 20px;
+}
 
+.checkbox-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.filters-box,
+.chart-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 800px;
+  background-color: #f9f9f9;
+}
+
+.chart-box {
+  text-align: center;
+}
+
+.centered-title {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.filters-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.checkbox-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.checkbox-container input[type="checkbox"],
+.checkbox-container input[type="radio"] {
+  margin-right: 10px;
+}

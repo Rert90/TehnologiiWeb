@@ -11,15 +11,6 @@
     <link href="../public/css/styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .checkbox-container {
-            column-count: 3;
-            column-gap: 20px;
-        }
-        .checkbox-container label {
-            display: block;
-        }
-    </style>
 </head>
 <body>
 <nav>
@@ -37,10 +28,10 @@
         <?php endif; ?>
     </ul>
 </nav>
-<div class="charts-container">
-    <h2>Visualize and Compare BMI Data</h2>
+<h2 class="centered-title">Visualize and Compare BMI Data</h2>
+<div class="filters-box">
     <form id="chart-form">
-        <label for="chart-type">Choose Chart Type:</label>
+        <label for="chart-type">Chart Type:</label>
         <select id="chart-type" name="chart-type">
             <option value="bar">Bar</option>
             <option value="line">Line</option>
@@ -59,39 +50,131 @@
         <div id="filter-year" class="checkbox-container"></div>
 
         <label for="filter-bmi-category">Filter by BMI Category:</label>
-        <div id="filter-bmi-category" class="checkbox-container"></div>
+        <div id="filter-bmi-category" class="checkbox-container">
+            <label>
+                <input type="radio" name="bmi-category" value="BMI25-29" onchange="generateChart()"> Overweight
+            </label>
+            <label>
+                <input type="radio" name="bmi-category" value="BMI_GE25" onchange="generateChart()"> Obese
+            </label>
+            <label>
+                <input type="radio" name="bmi-category" value="BMI_GE30" onchange="generateChart()"> Pre-Obese
+            </label>
+        </div>
 
         <button type="button" onclick="generateChart()">Generate Chart</button>
     </form>
+</div>
 
+<div class="chart-box">
     <canvas id="bmi-chart"></canvas>
     <div class="export-buttons">
-        <button onclick="exportChart('csv')">Export CSV</button>
-        <button onclick="exportChart('webp')">Export WebP</button>
-        <button onclick="exportChart('svg')">Export SVG</button>
+        <button class="button-download" onclick="exportChart('csv')">Export CSV</button>
+        <button class="button-download" onclick="exportChart('webp')">Export WebP</button>
+        <button class="button-download" onclick="exportChart('svg')">Export SVG</button>
     </div>
 </div>
 <script>
 let chartInstance = null;
+const countryMapping = {
+    AT: 'Austria',
+    BE: 'Belgium',
+    BG: 'Bulgaria',
+    CH: 'Switzerland',
+    CY: 'Cyprus',
+    CZ: 'Czech Republic',
+    DE: 'Germany',
+    DK: 'Denmark',
+    EE: 'Estonia',
+    EL: 'Greece',
+    ES: 'Spain',
+    FI: 'Finland',
+    FR: 'France',
+    HR: 'Croatia',
+    HU: 'Hungary',
+    IE: 'Ireland',
+    IS: 'Iceland',
+    IT: 'Italy',
+    LT: 'Lithuania',
+    LU: 'Luxembourg',
+    LV: 'Latvia',
+    ME: 'Montenegro',
+    MK: 'North Macedonia',
+    MT: 'Malta',
+    NL: 'Netherlands',
+    NO: 'Norway',
+    PL: 'Poland',
+    PT: 'Portugal',
+    RO: 'Romania',
+    RS: 'Serbia',
+    SE: 'Sweden',
+    SI: 'Slovenia',
+    SK: 'Slovakia',
+    TR: 'Turkey',
+    UK: 'United Kingdom'
+};
+
+const colors = [
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)',
+];
+
+const borderColors = [
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+];
 
 async function populateCheckboxes(containerId, url, isBmiCategory = false) {
     const response = await fetch(url);
     const data = await response.json();
     const container = document.getElementById(containerId);
-    if (containerId === 'filter-country') {
-        container.innerHTML = '<label><input type="checkbox" id="select-all-countries" onclick="toggleSelectAllCountries()"> Select All</label>';
-    } else {
-        container.innerHTML = '';
-    }
+    container.innerHTML = '';
 
     data.forEach(item => {
         const label = document.createElement('label');
         const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
+        checkbox.type = isBmiCategory ? 'radio' : 'checkbox';
         checkbox.value = item.geo ? item.geo : item.year ? item.year : item.bmi;
-        checkbox.name = containerId;
+        checkbox.name = isBmiCategory ? 'bmi-category' : containerId; // Ensure radio buttons have the same name
         label.appendChild(checkbox);
-        label.appendChild(document.createTextNode(isBmiCategory ? getBmiLabel(item.bmi) : (item.geo ? item.geo : item.year)));
+        const countryName = countryMapping[item.geo] || item.geo; // Get full country name or use the value itself if not found
+        label.appendChild(document.createTextNode(isBmiCategory ? getBmiLabel(item.bmi) : (item.geo ? countryName : item.year)));
         container.appendChild(label);
     });
 }
@@ -123,7 +206,17 @@ function generateChart() {
     const chartType = document.getElementById('chart-type').value;
     const filterCountry = Array.from(document.querySelectorAll('#filter-country input:checked')).map(checkbox => checkbox.value);
     const filterYear = Array.from(document.querySelectorAll('#filter-year input:checked')).map(checkbox => checkbox.value);
-    const filterBmiCategory = Array.from(document.querySelectorAll('#filter-bmi-category input:checked')).map(checkbox => checkbox.value);
+    const filterBmiCategory = document.querySelector('input[name="bmi-category"]:checked') ? document.querySelector('input[name="bmi-category"]:checked').value : null;
+
+    console.log('Chart Type:', chartType);
+    console.log('Selected Countries:', filterCountry);
+    console.log('Selected Years:', filterYear);
+    console.log('Selected BMI Category:', filterBmiCategory);
+
+    if (!filterBmiCategory) {
+        alert('Please select a BMI category.');
+        return;
+    }
 
     const params = new URLSearchParams();
     if (filterCountry.length > 0) {
@@ -132,45 +225,40 @@ function generateChart() {
     if (filterYear.length > 0) {
         params.append('year', filterYear.join(','));
     }
-    if (filterBmiCategory.length > 0) {
-        params.append('bmi', filterBmiCategory.join(','));
+    if (filterBmiCategory) {
+        params.append('bmi', filterBmiCategory);
     }
+
+    console.log('API Params:', params.toString());
 
     fetch('../public/api.php?' + params.toString())
         .then(response => response.json())
         .then(data => {
+            console.log('API Response Data:', data);
             if (chartInstance) {
                 chartInstance.destroy();
             }
 
-            const labels = data.map(item => item.geo);
-            const colors = [
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-            ];
-            const borderColors = [
-                'rgba(75, 192, 192, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ];
-            const datasets = filterYear.map((year, index) => ({
-                label: `BMI Data for ${year}`,
-                data: data.map(item => item['year_' + year]),
+            const labels = data.map(item => countryMapping[item.geo] || item.geo);
+            const datasets = filterCountry.map((country, index) => ({
+                label: countryMapping[country] || country,
+                data: filterYear.map(year => {
+                    const yearData = data.find(item => item.geo === country);
+                    return yearData ? yearData['year_' + year] : null;
+                }),
                 backgroundColor: colors[index % colors.length],
                 borderColor: borderColors[index % borderColors.length],
                 borderWidth: 1
             }));
 
+            console.log('Chart Labels:', labels);
+            console.log('Chart Datasets:', datasets);
+
             const ctx = document.getElementById('bmi-chart').getContext('2d');
             chartInstance = new Chart(ctx, {
                 type: chartType,
                 data: {
-                    labels: labels,
+                    labels: filterYear,
                     datasets: datasets
                 },
                 options: {
@@ -181,6 +269,8 @@ function generateChart() {
                     }
                 }
             });
+
+            document.querySelector('.export-buttons').style.display = 'block';
         })
         .catch(error => console.error('Error:', error));
 }
@@ -192,7 +282,7 @@ function exportChart(format) {
     if (format === 'csv') {
         const filterCountry = Array.from(document.querySelectorAll('#filter-country input:checked')).map(checkbox => checkbox.value);
         const filterYear = Array.from(document.querySelectorAll('#filter-year input:checked')).map(checkbox => checkbox.value);
-        const filterBmiCategory = Array.from(document.querySelectorAll('#filter-bmi-category input:checked')).map(checkbox => checkbox.value);
+        const filterBmiCategory = document.querySelector('input[name="bmi-category"]:checked') ? document.querySelector('input[name="bmi-category"]:checked').value : null;
 
         const params = new URLSearchParams();
         if (filterCountry.length > 0) {
@@ -201,8 +291,8 @@ function exportChart(format) {
         if (filterYear.length > 0) {
             params.append('year', filterYear.join(','));
         }
-        if (filterBmiCategory.length > 0) {
-            params.append('bmi', filterBmiCategory.join(','));
+        if (filterBmiCategory) {
+            params.append('bmi', filterBmiCategory);
         }
 
         fetch('../public/api.php?' + params.toString())
@@ -210,7 +300,7 @@ function exportChart(format) {
             .then(data => {
                 const csvContent = "data:text/csv;charset=utf-8,"
                     + "Country,BMI\n"
-                    + data.map(item => filterYear.map(year => `${item.geo},${item['year_' + year]}`).join("\n")).join("\n");
+                    + data.map(item => filterYear.map(year => `${countryMapping[item.geo] || item.geo},${item['year_' + year]}`).join("\n")).join("\n");
 
                 link.setAttribute('href', encodeURI(csvContent));
                 link.setAttribute('download', 'bmi_data.csv');
