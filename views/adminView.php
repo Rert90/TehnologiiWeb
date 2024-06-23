@@ -16,6 +16,9 @@ try {
 
     $stmt = $pdo->query("SELECT name, email, message, created_at FROM messages ORDER BY created_at DESC");
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $topCountriesStmt = $pdo->query("SELECT country_code, selection_count FROM country_selections ORDER BY selection_count DESC LIMIT 10");
+    $topCountries = $topCountriesStmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die('Failed to fetch messages: ' . $e->getMessage());
 }
@@ -62,6 +65,24 @@ try {
                     <td><?php echo htmlspecialchars($message['email']); ?></td>
                     <td><?php echo htmlspecialchars($message['message']); ?></td>
                     <td><?php echo htmlspecialchars($message['created_at']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <h3>Top Selected Countries</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Country Code</th>
+                <th>Selection Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($topCountries as $country): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($country['country_code']); ?></td>
+                    <td><?php echo htmlspecialchars($country['selection_count']); ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

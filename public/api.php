@@ -47,6 +47,30 @@ class ApiController {
         $bmi = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($bmi);
     }
+
+    public function updateCountrySelectionCount() {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!empty($input['countries'])) {
+            try {
+                foreach ($input['countries'] as $country) {
+                    $stmt = $this->db->prepare("INSERT INTO country_selections (country_code, selection_count) VALUES (:country, 1) ON DUPLICATE KEY UPDATE selection_count = selection_count + 1");
+                    $stmt->execute(['country' => $country]);
+                }
+                echo json_encode(['status' => 'success']);
+            } catch (PDOException $e) {
+                echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No countries provided']);
+        }
+    }
+
+    public function getTopCountries() {
+        $stmt = $this->bmiModel->getTopCountries();
+        $topCountries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($topCountries);
+    }
 }
 
 header("Content-Type: application/json; charset=UTF-8");
@@ -62,8 +86,17 @@ switch($request_method) {
             $apiController->getYears();
         } elseif ($action == 'getBmi') {
             $apiController->getBmi();
+        } elseif ($action == 'getTopCountries') {
+            $apiController->getTopCountries();
         } else {
             $apiController->getBmiData();
+        }
+        break;
+    case 'POST':
+        if ($action == 'updateCountrySelectionCount') {
+            $apiController->updateCountrySelectionCount();
+        } else {
+            echo json_encode(["message" => "Action not supported for POST request"]);
         }
         break;
     default:

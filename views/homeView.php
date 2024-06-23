@@ -17,7 +17,6 @@
         <img src="../public/images/logo.jpg" alt="Logo proiect">
     </div>
     <ul>
-    <ul>
         <li><a href="../public/index.php"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="../public/charts.php"><i class="fas fa-chart-bar"></i> Charts</a></li>
         <li><a href="../public/contact.php"><i class="fas fa-envelope"></i> Contact</a></li>
@@ -33,13 +32,13 @@
 </div>
 <section class="bmi-explorer">
     <h2>Bine ați venit la BMI Explorer!</h2>
-    <p>Explorați și comparați indicele de masă corporală (BMI) într-un mod interactiv și informativ. BMI Explorer vă permite să accesați și să analizați datele referitoare la BMI folosind datele publice furnizate de Eurostat, prin intermediul propriului nostru API REST/GraphQL.</p>
+    <p>Explorați și comparați indicele de masă corporală (BMI) într-un mod interactiv și informativ. BMI Explorer vă permite să accesați și să analizați datele referitoare la BMI folosind datele publice furnizate de Eurostat.</p>
     <h3>Caracteristici principale:</h3>
     <ul>
         <li>Vizualizare interactivă: Experimentați grafice interactive și instrumente de vizualizare care vă permit să înțelegeți și să explorați diferite aspecte ale BMI.</li>
         <li>Comparare facilă: Comparați nivelurile BMI între țări in funcție de ani  pentru a identifica tendințe și diferențe semnificative.</li>
     </ul>
-    <p>Începeți să explorați acum și să descoperiți insigiențele interesante despre BMI în întreaga Europă și dincolo!</p>
+    <p>Începeți să explorați acum și să descoperiți insigiențele interesante despre BMI în întreaga Europă!</p>
    
     <div class="bmi-calculator-container">
     <h2>Calculator BMI</h2>
@@ -66,31 +65,6 @@
         <a href="https://www.youtube.com/" class="footer-link" target="_blank"><i class="fab fa-youtube footer-icon"></i></a>
     </div>
 </footer>
-<script>
-function calculateBMI() {
-    const height = document.getElementById('height').value;
-    const weight = document.getElementById('weight').value;
-
-    if (height && weight) {
-        const heightInMeters = height / 100;
-        const bmi = weight / (heightInMeters * heightInMeters);
-        let category = '';
-
-        if (bmi < 18.5) {
-            category = 'Underweight';
-        } else if (bmi >= 18.5 && bmi < 24.9) {
-            category = 'Normal weight';
-        } else if (bmi >= 25 && bmi < 29.9) {
-            category = 'Overweight';
-        } else {
-            category = 'Obese';
-        }
-
-        document.getElementById('bmi-result').innerHTML = `Your BMI is ${bmi.toFixed(2)} (${category})`;
-    } else {
-        document.getElementById('bmi-result').innerHTML = 'Please enter valid height and weight values.';
-    }
-}
-</script>
+<script src="../public/js/bmiCalculator.js"></script>
 </body>
 </html>

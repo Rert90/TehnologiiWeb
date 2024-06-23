@@ -1,13 +1,9 @@
-/* General Styles */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
 }
 
-a {
-  text-decoration: none;
-}
 
 nav {
   background-color: #333;
@@ -156,108 +152,6 @@ header {
   border-color: #f5c6cb;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-.bmi-box {
-  margin-top: 3.75em;
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.bmi-text {
-  font-size: 2rem;
-  color: #333;
-  text-align: center;
-  margin: 0;
-}
-
-.bmi-subtext {
-  font-size: 0.8rem;
-  color: #999;
-  text-align: center;
-  margin-top: 0.3em;
-}
-
-.bmi-image {
-  position: absolute;
-  top: 0;
-  right: calc(100% + 1.25em); 
-  transform: translateY(-50%);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease-in-out;
-  z-index: 2;
-}
-
-.bmi-box:hover .bmi-image {
-  opacity: 1;
-  visibility: visible;
-}
-
-.bmi-explorer {
-  padding: 1.25em;
-  background-color: #f9f9f9;
-  margin-top: 1.25em;
-  text-align: center;
-}
-
-.bmi-explorer .content {
-  max-width: 50em;
-  margin: 0 auto;
-}
-
-.bmi-explorer h2 {
-  color: #333;
-  font-size: 2rem; 
-  margin-bottom: 1.25em; 
-}
-
-.bmi-explorer p {
-  color: #555;
-  font-size: 1.1rem; 
-  margin-bottom: 0.9em; 
-}
-
-.bmi-explorer h3 {
-  color: #555;
-  font-size: 1.5rem; 
-  margin-top: 1.25em; 
-  margin-bottom: 0.6em; 
-}
-
-.bmi-explorer ul {
-  margin-top: 0.6em;
-  margin-left: 1.25em;
-}
-
-.bmi-explorer ul li {
-  margin-bottom: 0.6em;
-  font-size: 1.1rem; 
-  list-style-type:none;
-}
-
-.bmi-box:hover .bmi-image img {
-  height: 25em;
-  width: 25em;
-}
 
 .login-register-section {
   background-color: #f5f5f5;
@@ -384,7 +278,6 @@ th {
   padding-bottom: 2em;
 }
 
-/* Footer Styles */
 .footer {
   background-color: #333; 
   position: fixed;
@@ -426,7 +319,6 @@ th {
   bottom: calc(2.6em + 100px); 
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
   nav {
     flex-direction: column;
@@ -489,7 +381,6 @@ th {
   }
 }
 
-/* Styles for the charts page */
 .charts-container {
   background-color: #fff;
   padding: 2em;

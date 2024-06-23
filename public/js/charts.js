@@ -104,16 +104,27 @@ function toggleSelectAllCountries() {
     document.querySelector('.select-all-btn').innerText = allSelected ? 'Deselect All' : 'Select All';
 }
 
+async function updateCountrySelectionCount(selectedCountries) {
+    try {
+        const response = await fetch('../public/api.php?action=updateCountrySelectionCount', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ countries: selectedCountries })
+        });
+        const result = await response.json();
+        console.log('Update Country Selection Count Result:', result);
+    } catch (error) {
+        console.error('Error updating country selection count:', error);
+    }
+}
+
 function generateChart() {
     const chartType = document.getElementById('chart-type').value;
     const filterCountry = Array.from(document.querySelectorAll('#filter-country input:checked')).map(checkbox => checkbox.value);
     const filterYear = Array.from(document.querySelectorAll('#filter-year input:checked')).map(checkbox => checkbox.value);
     const filterBmiCategory = document.querySelector('input[name="bmi-category"]:checked') ? document.querySelector('input[name="bmi-category"]:checked').value : null;
-
-    console.log('Chart Type:', chartType);
-    console.log('Selected Countries:', filterCountry);
-    console.log('Selected Years:', filterYear);
-    console.log('Selected BMI Category:', filterBmiCategory);
 
     if (!filterBmiCategory) {
         alert('Please select a BMI category.');
@@ -131,12 +142,9 @@ function generateChart() {
         params.append('bmi', filterBmiCategory);
     }
 
-    console.log('API Params:', params.toString());
-
     fetch('../public/api.php?' + params.toString())
         .then(response => response.json())
         .then(data => {
-            console.log('API Response Data:', data);
             if (chartInstance) {
                 chartInstance.destroy();
             }
@@ -152,9 +160,6 @@ function generateChart() {
                 borderColor: borderColors[index % borderColors.length],
                 borderWidth: 1
             }));
-
-            console.log('Chart Labels:', labels);
-            console.log('Chart Datasets:', datasets);
 
             const ctx = document.getElementById('bmi-chart').getContext('2d');
             chartInstance = new Chart(ctx, {
@@ -174,9 +179,15 @@ function generateChart() {
 
             document.getElementById('chart-box').style.display = 'block';
             document.querySelector('.export-buttons').style.display = 'block';
+
+            // Update country selection count
+            updateCountrySelectionCount(filterCountry);
         })
         .catch(error => console.error('Error:', error));
 }
+
+
+
 
 function exportChart(format) {
     const canvas = document.getElementById('bmi-chart');

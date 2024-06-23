@@ -57,5 +57,12 @@ class BmiModel {
         $stmt->execute();
         return $stmt;
     }
+
+    public function getTopCountries() {
+        $query = "SELECT country_code, selection_count FROM country_selections ORDER BY selection_count DESC LIMIT 10";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
 }
 ?>
