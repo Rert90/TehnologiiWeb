@@ -49,13 +49,13 @@
         <label for="filter-bmi-category">Filter by BMI Category:</label>
         <div id="filter-bmi-category" class="checkbox-container">
             <label>
-                <input type="radio" name="bmi-category" value="BMI25-29" onchange="generateChart()"> Overweight
+                <input type="radio" name="bmi-category" value="BMI25-29" onchange="generateChart()"> Pre-Obese
             </label>
             <label>
-                <input type="radio" name="bmi-category" value="BMI_GE25" onchange="generateChart()"> Obese
+                <input type="radio" name="bmi-category" value="BMI_GE25" onchange="generateChart()"> Overweight
             </label>
             <label>
-                <input type="radio" name="bmi-category" value="BMI_GE30" onchange="generateChart()"> Pre-Obese
+                <input type="radio" name="bmi-category" value="BMI_GE30" onchange="generateChart()"> Obese
             </label>
         </div>
 

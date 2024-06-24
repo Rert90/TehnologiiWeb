@@ -1,5 +1,3 @@
-// charts.js
-
 let chartInstance = null;
 let allSelected = false;
 const countryMapping = {
@@ -85,11 +83,11 @@ async function populateCheckboxes(containerId, url, isBmiCategory = false) {
 function getBmiLabel(bmiValue) {
     switch (bmiValue) {
         case 'BMI25-29':
-            return 'Overweight';
-        case 'BMI_GE25':
-            return 'Obese';
-        case 'BMI_GE30':
             return 'Pre-Obese';
+        case 'BMI_GE25':
+            return 'Overweight';
+        case 'BMI_GE30':
+            return 'Obese';
         default:
             return bmiValue;
     }
@@ -180,14 +178,10 @@ function generateChart() {
             document.getElementById('chart-box').style.display = 'block';
             document.querySelector('.export-buttons').style.display = 'block';
 
-            // Update country selection count
             updateCountrySelectionCount(filterCountry);
         })
         .catch(error => console.error('Error:', error));
 }
-
-
-
 
 function exportChart(format) {
     const canvas = document.getElementById('bmi-chart');
@@ -227,7 +221,28 @@ function exportChart(format) {
         link.click();
 
     } else if (format === 'svg') {
-        link.href = canvas.toDataURL('image/svg+xml');
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", canvas.width);
+        svg.setAttribute("height", canvas.height);
+        const svgNS = svg.namespaceURI;
+        const rect = document.createElementNS(svgNS, 'rect');
+        rect.setAttribute('width', '100%');
+        rect.setAttribute('height', '100%');
+        rect.setAttribute('fill', 'white');
+        svg.appendChild(rect);
+
+        const img = document.createElementNS(svgNS, 'image');
+        img.setAttribute('href', canvas.toDataURL('image/png'));
+        img.setAttribute('x', '0');
+        img.setAttribute('y', '0');
+        img.setAttribute('width', canvas.width);
+        img.setAttribute('height', canvas.height);
+        svg.appendChild(img);
+
+        const serializer = new XMLSerializer();
+        const svgBlob = new Blob([serializer.serializeToString(svg)], { type: 'image/svg+xml' });
+        const svgUrl = URL.createObjectURL(svgBlob);
+        link.href = svgUrl;
         link.download = 'chart.svg';
         link.click();
     }
