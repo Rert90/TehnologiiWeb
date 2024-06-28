@@ -15,10 +15,10 @@ class ApiController {
     public function getBmiData() {
         $criteria = [];
         if (isset($_GET['country'])) {
-            $criteria['country'] = $_GET['country'];
+            $criteria['country'] = explode(',', $_GET['country']);
         }
         if (isset($_GET['year'])) {
-            $criteria['year'] = $_GET['year'];
+            $criteria['year'] = explode(',', $_GET['year']);
         }
 
         $stmt = $this->bmiModel->getBmiData($criteria);
@@ -29,8 +29,6 @@ class ApiController {
     public function insertBmiData() {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        $freq = $input['freq'];
-        $unit = $input['unit'];
         $bmi = $input['bmi'];
         $geo = $input['geo'];
         $year_2008 = $input['year_2008'];
@@ -39,7 +37,7 @@ class ApiController {
         $year_2019 = $input['year_2019'];
         $year_2022 = $input['year_2022'];
 
-        if($this->bmiModel->insertData($freq, $unit, $bmi, $geo, $year_2008, $year_2014, $year_2017, $year_2019, $year_2022)) {
+        if($this->bmiModel->insertData($bmi, $geo, $year_2008, $year_2014, $year_2017, $year_2019, $year_2022)) {
             echo json_encode(["message" => "Data inserted successfully"]);
         } else {
             echo json_encode(["message" => "Failed to insert data"]);
@@ -52,9 +50,6 @@ class ApiController {
         if (!empty($input['countries'])) {
             try {
                 foreach ($input['countries'] as $country) {
-                    
-                    file_put_contents('log.txt', "Processing country: $country\n", FILE_APPEND);
-    
                     $stmt = $this->db->prepare("
                         INSERT INTO country_selections (country_code, selection_count) 
                         VALUES (:country, 1) 
@@ -70,37 +65,94 @@ class ApiController {
             echo json_encode(['status' => 'error', 'message' => 'No countries provided']);
         }
     }
-    
-    
 
-header("Content-Type: application/json; charset=UTF-8");
-$apiController = new ApiController();
+    public function addCountry() {
+        $input = json_decode(file_get_contents('php://input'), true);
 
-$request_method = $_SERVER['REQUEST_METHOD'];
-$action = isset($_GET['action']) ? $_GET['action'] : 'getBmiData';
-switch($request_method) {
-    case 'GET':
-        if ($action == 'getCountries') {
-            $apiController->getCountries();
-        } elseif ($action == 'getYears') {
-            $apiController->getYears();
-        } elseif ($action == 'getBmi') {
-            $apiController->getBmi();
-        } elseif ($action == 'getTopCountries') {
-            $apiController->getTopCountries();
-        } else {
-            $apiController->getBmiData();
+        try {
+            $stmt = $this->db->prepare("
+                INSERT INTO bmi_data (geo, bmi, year_2008, year_2014, year_2017, year_2019, year_2022)
+                VALUES (:geo, :bmi, :year_2008, :year_2014, :year_2017, :year_2019, :year_2022)
+            ");
+            $stmt->execute([
+                'geo' => $input['geo'],
+                'bmi' => $input['bmi'],
+                'year_2008' => $input['year_2008'],
+                'year_2014' => $input['year_2014'],
+                'year_2017' => $input['year_2017'],
+                'year_2019' => $input['year_2019'],
+                'year_2022' => $input['year_2022'],
+            ]);
+            echo json_encode(['status' => 'success']);
+        } catch (PDOException $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
-        break;
-    case 'POST':
-        if ($action == 'updateCountrySelectionCount') {
-            $apiController->updateCountrySelectionCount();
-        } else {
-            echo json_encode(["message" => "Action not supported for POST request"]);
+    }
+
+    public function editCountry() {
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        try {
+            $stmt = $this->db->prepare("
+                UPDATE bmi_data
+                SET bmi = :bmi, year_2008 = :year_2008, year_2014 = :year_2014, year_2017 = :year_2017, year_2019 = :year_2019, year_2022 = :year_2022
+                WHERE geo = :geo
+            ");
+            $stmt->execute([
+                'geo' => $input['geo'],
+                'bmi' => $input['bmi'],
+                'year_2008' => $input['year_2008'],
+                'year_2014' => $input['year_2014'],
+                'year_2017' => $input['year_2017'],
+                'year_2019' => $input['year_2019'],
+                'year_2022' => $input['year_2022'],
+            ]);
+            echo json_encode(['status' => 'success']);
+        } catch (PDOException $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
-        break;
-    default:
-        echo json_encode(["message" => "Request method not supported"]);
-        break;
+    }
+
+    public function exportData() {
+        try {
+            $stmt = $this->db->query("SELECT * FROM bmi_data");
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $csvContent = "geo,bmi,year_2008,year_2014,year_2017,year_2019,year_2022\n";
+            foreach ($data as $row) {
+                $csvContent .= implode(",", $row) . "\n";
+            }
+
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment;filename=bmi_data.csv');
+            echo $csvContent;
+        } catch (PDOException $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function getCountries() {
+        $stmt = $this->bmiModel->getCountries();
+        $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($countries);
+    }
+
+    public function getYears() {
+        $stmt = $this->bmiModel->getYears();
+        $years = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($years);
+    }
+
+    public function getBmi() {
+        $stmt = $this->bmiModel->getBmi();
+        $bmi = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($bmi);
+    }
+
+    public function getTopCountries() {
+        $stmt = $this->bmiModel->getTopCountries();
+        $topCountries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($topCountries);
+    }
 }
 ?>

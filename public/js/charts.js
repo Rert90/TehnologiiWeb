@@ -1,42 +1,5 @@
 let chartInstance = null;
 let allSelected = false;
-const countryMapping = {
-    AT: 'Austria',
-    BE: 'Belgium',
-    BG: 'Bulgaria',
-    CH: 'Switzerland',
-    CY: 'Cyprus',
-    CZ: 'Czech Republic',
-    DE: 'Germany',
-    DK: 'Denmark',
-    EE: 'Estonia',
-    EL: 'Greece',
-    ES: 'Spain',
-    FI: 'Finland',
-    FR: 'France',
-    HR: 'Croatia',
-    HU: 'Hungary',
-    IE: 'Ireland',
-    IS: 'Iceland',
-    IT: 'Italy',
-    LT: 'Lithuania',
-    LU: 'Luxembourg',
-    LV: 'Latvia',
-    ME: 'Montenegro',
-    MK: 'North Macedonia',
-    MT: 'Malta',
-    NL: 'Netherlands',
-    NO: 'Norway',
-    PL: 'Poland',
-    PT: 'Portugal',
-    RO: 'Romania',
-    RS: 'Serbia',
-    SE: 'Sweden',
-    SI: 'Slovenia',
-    SK: 'Slovakia',
-    TR: 'Turkey',
-    UK: 'United Kingdom'
-};
 
 const colors = [
     'rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)',
@@ -74,7 +37,7 @@ async function populateCheckboxes(containerId, url, isBmiCategory = false) {
         checkbox.value = item.geo ? item.geo : item.year ? item.year : item.bmi;
         checkbox.name = isBmiCategory ? 'bmi-category' : containerId; 
         label.appendChild(checkbox);
-        const countryName = countryMapping[item.geo] || item.geo; 
+        const countryName = item.geo; 
         label.appendChild(document.createTextNode(isBmiCategory ? getBmiLabel(item.bmi) : (item.geo ? countryName : item.year)));
         container.appendChild(label);
     });
@@ -149,7 +112,7 @@ function generateChart() {
 
             const labels = filterYear;
             const datasets = filterCountry.map((country, index) => ({
-                label: countryMapping[country] || country,
+                label: country,
                 data: filterYear.map(year => {
                     const yearData = data.find(item => item.geo === country);
                     return yearData ? yearData['year_' + year] : null;
@@ -208,7 +171,7 @@ function exportChart(format) {
             .then(data => {
                 const csvContent = "data:text/csv;charset=utf-8,"
                     + "Country,BMI\n"
-                    + data.map(item => filterYear.map(year => `${countryMapping[item.geo] || item.geo},${item['year_' + year]}`).join("\n")).join("\n");
+                    + data.map(item => filterYear.map(year => `${item.geo},${item['year_' + year]}`).join("\n")).join("\n");
 
                 link.setAttribute('href', encodeURI(csvContent));
                 link.setAttribute('download', 'bmi_data.csv');

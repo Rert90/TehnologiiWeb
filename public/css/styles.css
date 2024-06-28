@@ -175,6 +175,85 @@ th {
   background-color: #f2f2f2;
 }
 
+.section { display: none; }
+
+.section.active { display: block; }
+
+.admin-container button {
+   background-color: #4CAF50;
+   color: white;
+   padding: 10px 20px;
+   margin: 10px 0;
+   border: none;
+   cursor: pointer;
+    border-radius: 4px;
+    }
+
+  .admin-container button:hover {
+   background-color: #45a049;
+   }
+
+   button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.add-container {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 50px;
+  text-align: center;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-label {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 300px;
+  text-align: left;
+}
+
+.form-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.form-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #218838;
+}
+
+
+
 .bmi-box {
   margin-top: 3.75em;
   position: relative;

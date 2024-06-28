@@ -17,10 +17,13 @@ try {
     $stmt = $pdo->query("SELECT name, email, message, created_at FROM messages ORDER BY created_at DESC");
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $topCountriesStmt = $pdo->query("SELECT country_code, selection_count FROM country_selections ORDER BY selection_count DESC LIMIT 10");
-    $topCountries = $topCountriesStmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->query("SELECT * FROM bmi_data");
+    $bmiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt = $pdo->query("SELECT country_code, selection_count FROM country_selections ORDER BY selection_count DESC");
+    $topCountries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die('Failed to fetch messages: ' . $e->getMessage());
+    die('Failed to fetch data: ' . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -48,45 +51,91 @@ try {
 <div class="admin-container">
     <h2>Admin Dashboard</h2>
     
-    <h3>Received Messages</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Message</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($messages as $message): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($message['name']); ?></td>
-                    <td><?php echo htmlspecialchars($message['email']); ?></td>
-                    <td><?php echo htmlspecialchars($message['message']); ?></td>
-                    <td><?php echo htmlspecialchars($message['created_at']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <button onclick="showSection('messages')">View Messages</button>
+    <button onclick="showSection('bmiData')">View BMI Data</button>
+    <button onclick="showSection('topCountries')">View Top Countries</button>
 
-    <h3>Top Selected Countries</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Country Code</th>
-                <th>Selection Count</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($topCountries as $country): ?>
+    <div id="messages" class="section">
+        <h3>Received Messages</h3>
+        <table>
+            <thead>
                 <tr>
-                    <td><?php echo htmlspecialchars($country['country_code']); ?></td>
-                    <td><?php echo htmlspecialchars($country['selection_count']); ?></td>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                    <th>Date</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($messages as $message): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($message['name']); ?></td>
+                        <td><?php echo htmlspecialchars($message['email']); ?></td>
+                        <td><?php echo htmlspecialchars($message['message']); ?></td>
+                        <td><?php echo htmlspecialchars($message['created_at']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="bmiData" class="section">
+        <h3>All BMI Data</h3>
+        <button onclick="window.location.href='../views/addCountryView.php'">Add Country</button>
+        <button onclick="exportData()">Export Data</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Geo</th>
+                    <th>BMI</th>
+                    <th>2008</th>
+                    <th>2014</th>
+                    <th>2017</th>
+                    <th>2019</th>
+                    <th>2022</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($bmiData as $data): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($data['geo']); ?></td>
+                        <td><?php echo htmlspecialchars($data['bmi']); ?></td>
+                        <td><?php echo htmlspecialchars($data['year_2008']); ?></td>
+                        <td><?php echo htmlspecialchars($data['year_2014']); ?></td>
+                        <td><?php echo htmlspecialchars($data['year_2017']); ?></td>
+                        <td><?php echo htmlspecialchars($data['year_2019']); ?></td>
+                        <td><?php echo htmlspecialchars($data['year_2022']); ?></td>
+                        <td>
+                            <a href="../views/editCountryView.php?geo=<?php echo htmlspecialchars($data['geo']); ?>">Edit</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="topCountries" class="section">
+        <h3>Top Selected Countries</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Country Code</th>
+                    <th>Selection Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($topCountries as $country): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($country['country_code']); ?></td>
+                        <td><?php echo htmlspecialchars($country['selection_count']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script src="../public/js/admin.js"></script>
 </body>
 </html>
