@@ -17,7 +17,7 @@ try {
     $stmt = $pdo->query("SELECT name, email, message, created_at FROM messages ORDER BY created_at DESC");
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->query("SELECT * FROM bmi_data");
+    $stmt = $pdo->query("SELECT * FROM bmi_data GROUP BY geo, bmi"); 
     $bmiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $stmt = $pdo->query("SELECT country_code, selection_count FROM country_selections ORDER BY selection_count DESC");
@@ -35,6 +35,7 @@ try {
     <title>Admin - VisB</title>
     <link href="../public/css/styles.css" rel="stylesheet" type="text/css">
     <script src="https://kit.fontawesome.com/9f74761d90.js" crossorigin="anonymous"></script>
+    <script src="../public/js/admin.js" defer></script>
 </head>
 <body>
 <nav>
@@ -82,7 +83,6 @@ try {
     <div id="bmiData" class="section">
         <h3>All BMI Data</h3>
         <button onclick="window.location.href='../views/addCountryView.php'">Add Country</button>
-        <button onclick="exportData()">Export Data</button>
         <table>
             <thead>
                 <tr>
@@ -113,6 +113,8 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <button onclick="exportData()">Export Data</button>
     </div>
 
     <div id="topCountries" class="section">
@@ -135,7 +137,5 @@ try {
         </table>
     </div>
 </div>
-
-<script src="../public/js/admin.js"></script>
 </body>
 </html>

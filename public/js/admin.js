@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', () => {
+    showSection('messages');
+});
+
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
@@ -5,10 +9,6 @@ function showSection(sectionId) {
     });
     document.getElementById(sectionId).classList.add('active');
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    showSection('messages');
-});
 
 function exportData() {
     fetch('../public/api.php?action=exportData')

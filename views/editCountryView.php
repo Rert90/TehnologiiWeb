@@ -1,46 +1,22 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../public/login.php");
-    exit();
-}
-
 require_once '../config/db.php';
+require_once '../controllers/EditCountryController.php';
 
-$geo = $_GET['geo'];
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=visb_db', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$editCountryController = new EditCountryController();
 
-    $stmt = $pdo->prepare("SELECT * FROM bmi_data WHERE geo = ?");
-    $stmt->execute([$geo]);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $stmt = $pdo->prepare("
-            UPDATE bmi_data
-            SET bmi = ?, year_2008 = ?, year_2014 = ?, year_2017 = ?, year_2019 = ?, year_2022 = ?
-            WHERE geo = ?
-        ");
-        $stmt->execute([
-            $_POST['bmi'],
-            $_POST['year_2008'],
-            $_POST['year_2014'],
-            $_POST['year_2017'],
-            $_POST['year_2019'],
-            $_POST['year_2022'],
-            $geo
-        ]);
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['delete'])) {
+        $editCountryController->deleteCountry($_GET['geo']);
+        header("Location: ../public/admin.php");
+        exit();
+    } else {
+        $editCountryController->updateCountry($_POST);
         header("Location: ../public/admin.php");
         exit();
     }
-} catch (PDOException $e) {
-    die('Failed to fetch data: ' . $e->getMessage());
 }
+
+$countryData = $editCountryController->getCountryData($_GET['geo']);
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -64,31 +40,32 @@ try {
         <li><a href="../public/logout.php"><i class="fas fa-sign-out-alt"></i> Disconnect</a></li>
     </ul>
 </nav>
-<div class="add-container">
+<div class="form-container">
     <h2>Edit Country Data</h2>
-    <form method="post" class="form-container">
-        <label for="geo" class="form-label">Geo:</label>
-        <input type="text" id="geo" name="geo" class="form-input" value="<?php echo htmlspecialchars($data['geo']); ?>" disabled>
+    <form method="post">
+        <label for="geo">Geo:</label>
+        <input type="text" id="geo" name="geo" value="<?php echo htmlspecialchars($countryData['geo']); ?>" required>
 
-        <label for="bmi" class="form-label">BMI:</label>
-        <input type="text" id="bmi" name="bmi" class="form-input" value="<?php echo htmlspecialchars($data['bmi']); ?>" required>
+        <label for="bmi">BMI:</label>
+        <input type="text" id="bmi" name="bmi" value="<?php echo htmlspecialchars($countryData['bmi']); ?>" required>
         
-        <label for="year_2008" class="form-label">2008:</label>
-        <input type="text" id="year_2008" name="year_2008" class="form-input" value="<?php echo htmlspecialchars($data['year_2008']); ?>">
+        <label for="year_2008">2008:</label>
+        <input type="text" id="year_2008" name="year_2008" value="<?php echo htmlspecialchars($countryData['year_2008']); ?>">
         
-        <label for="year_2014" class="form-label">2014:</label>
-        <input type="text" id="year_2014" name="year_2014" class="form-input" value="<?php echo htmlspecialchars($data['year_2014']); ?>">
+        <label for="year_2014">2014:</label>
+        <input type="text" id="year_2014" name="year_2014" value="<?php echo htmlspecialchars($countryData['year_2014']); ?>">
         
-        <label for="year_2017" class="form-label">2017:</label>
-        <input type="text" id="year_2017" name="year_2017" class="form-input" value="<?php echo htmlspecialchars($data['year_2017']); ?>">
+        <label for="year_2017">2017:</label>
+        <input type="text" id="year_2017" name="year_2017" value="<?php echo htmlspecialchars($countryData['year_2017']); ?>">
         
-        <label for="year_2019" class="form-label">2019:</label>
-        <input type="text" id="year_2019" name="year_2019" class="form-input" value="<?php echo htmlspecialchars($data['year_2019']); ?>">
+        <label for="year_2019">2019:</label>
+        <input type="text" id="year_2019" name="year_2019" value="<?php echo htmlspecialchars($countryData['year_2019']); ?>">
         
-        <label for="year_2022" class="form-label">2022:</label>
-        <input type="text" id="year_2022" name="year_2022" class="form-input" value="<?php echo htmlspecialchars($data['year_2022']); ?>">
-        
-        <button type="submit" class="form-button">Update Country</button>
+        <label for="year_2022">2022:</label>
+        <input type="text" id="year_2022" name="year_2022" value="<?php echo htmlspecialchars($countryData['year_2022']); ?>">
+
+        <button type="submit">Update Country</button>
+        <button type="submit" name="delete" class="delete-btn">Delete Country</button>
     </form>
 </div>
 </body>

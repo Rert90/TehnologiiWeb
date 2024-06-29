@@ -787,3 +787,54 @@ button:hover {
   font-size: 1.2em;
   color: #333;
 }
+
+
+
+
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.form-container h2 {
+  text-align: center;
+}
+
+.form-container label {
+  display: block;
+  margin-top: 10px;
+}
+
+.form-container input[type="text"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-container button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-container .delete-button {
+  background-color: #dc3545;
+  margin-top: 10px;
+}
+
+.form-container button:hover {
+  opacity: 0.8;
+}
