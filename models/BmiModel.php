@@ -80,5 +80,82 @@ class BmiModel {
         ]);
         return $stmt;
     }
+
+    public function updateCountrySelectionCount($countries) {
+        try {
+            foreach ($countries as $country) {
+                $stmt = $this->conn->prepare("
+                    INSERT INTO country_selections (country_code, selection_count) 
+                    VALUES (:country, 1) 
+                    ON DUPLICATE KEY UPDATE selection_count = selection_count + 1
+                ");
+                $stmt->execute(['country' => $country]);
+            }
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function addCountry($geo, $bmi, $year_2008, $year_2014, $year_2017, $year_2019, $year_2022) {
+        try {
+            $stmt = $this->conn->prepare("
+                INSERT INTO bmi_data (geo, bmi, year_2008, year_2014, year_2017, year_2019, year_2022)
+                VALUES (:geo, :bmi, :year_2008, :year_2014, :year_2017, :year_2019, :year_2022)
+            ");
+            $stmt->execute([
+                'geo' => $geo,
+                'bmi' => $bmi,
+                'year_2008' => $year_2008,
+                'year_2014' => $year_2014,
+                'year_2017' => $year_2017,
+                'year_2019' => $year_2019,
+                'year_2022' => $year_2022,
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function editCountry($geo, $bmi, $year_2008, $year_2014, $year_2017, $year_2019, $year_2022) {
+        try {
+            $stmt = $this->conn->prepare("
+                UPDATE bmi_data
+                SET bmi = :bmi, year_2008 = :year_2008, year_2014 = :year_2014, year_2017 = :year_2017, year_2019 = :year_2019, year_2022 = :year_2022
+                WHERE geo = :geo AND bmi = :bmi
+            ");
+            $stmt->execute([
+                'geo' => $geo,
+                'bmi' => $bmi,
+                'year_2008' => $year_2008,
+                'year_2014' => $year_2014,
+                'year_2017' => $year_2017,
+                'year_2019' => $year_2019,
+                'year_2022' => $year_2022,
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function exportData() {
+        try {
+            $stmt = $this->conn->query("SELECT * FROM bmi_data");
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $csvContent = "geo,bmi,year_2008,year_2014,year_2017,year_2019,year_2022\n";
+            foreach ($data as $row) {
+                $csvContent .= implode(",", $row) . "\n";
+            }
+
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment;filename=bmi_data.csv');
+            echo $csvContent;
+        } catch (PDOException $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
 }
 ?>

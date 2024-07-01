@@ -55,6 +55,7 @@ try {
     <button onclick="showSection('messages')">View Messages</button>
     <button onclick="showSection('bmiData')">View BMI Data</button>
     <button onclick="showSection('topCountries')">View Top Countries</button>
+    
 
     <div id="messages" class="section">
         <h3>Received Messages</h3>
@@ -83,6 +84,8 @@ try {
     <div id="bmiData" class="section">
         <h3>All BMI Data</h3>
         <button onclick="window.location.href='../views/addCountryView.php'">Add Country</button>
+        <button onclick="exportData()">Export Data</button>
+
         <table>
             <thead>
                 <tr>
@@ -114,7 +117,6 @@ try {
             </tbody>
         </table>
 
-        <button onclick="exportData()">Export Data</button>
     </div>
 
     <div id="topCountries" class="section">

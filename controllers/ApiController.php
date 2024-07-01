@@ -51,18 +51,10 @@ class ApiController {
         $input = json_decode(file_get_contents('php://input'), true);
     
         if (!empty($input['countries'])) {
-            try {
-                foreach ($input['countries'] as $country) {
-                    $stmt = $this->db->prepare("
-                        INSERT INTO country_selections (country_code, selection_count) 
-                        VALUES (:country, 1) 
-                        ON DUPLICATE KEY UPDATE selection_count = selection_count + 1
-                    ");
-                    $stmt->execute(['country' => $country]);
-                }
+            if ($this->bmiModel->updateCountrySelectionCount($input['countries'])) {
                 echo json_encode(['status' => 'success']);
-            } catch (PDOException $e) {
-                echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to update country selection count']);
             }
         } else {
             echo json_encode(['status' => 'error', 'message' => 'No countries provided']);
@@ -72,66 +64,41 @@ class ApiController {
     public function addCountry() {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        try {
-            $stmt = $this->db->prepare("
-                INSERT INTO bmi_data (geo, bmi, year_2008, year_2014, year_2017, year_2019, year_2022)
-                VALUES (:geo, :bmi, :year_2008, :year_2014, :year_2017, :year_2019, :year_2022)
-            ");
-            $stmt->execute([
-                'geo' => $input['geo'],
-                'bmi' => $input['bmi'],
-                'year_2008' => $input['year_2008'],
-                'year_2014' => $input['year_2014'],
-                'year_2017' => $input['year_2017'],
-                'year_2019' => $input['year_2019'],
-                'year_2022' => $input['year_2022'],
-            ]);
+        if ($this->bmiModel->addCountry(
+            $input['geo'],
+            $input['bmi'],
+            $input['year_2008'],
+            $input['year_2014'],
+            $input['year_2017'],
+            $input['year_2019'],
+            $input['year_2022']
+        )) {
             echo json_encode(['status' => 'success']);
-        } catch (PDOException $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to add country']);
         }
     }
 
     public function editCountry() {
         $input = json_decode(file_get_contents('php://input'), true);
 
-        try {
-            $stmt = $this->db->prepare("
-                UPDATE bmi_data
-                SET bmi = :bmi, year_2008 = :year_2008, year_2014 = :year_2014, year_2017 = :year_2017, year_2019 = :year_2019, year_2022 = :year_2022
-                WHERE geo = :geo AND bmi = :bmi
-            ");
-            $stmt->execute([
-                'geo' => $input['geo'],
-                'bmi' => $input['bmi'],
-                'year_2008' => $input['year_2008'],
-                'year_2014' => $input['year_2014'],
-                'year_2017' => $input['year_2017'],
-                'year_2019' => $input['year_2019'],
-                'year_2022' => $input['year_2022'],
-            ]);
+        if ($this->bmiModel->editCountry(
+            $input['geo'],
+            $input['bmi'],
+            $input['year_2008'],
+            $input['year_2014'],
+            $input['year_2017'],
+            $input['year_2019'],
+            $input['year_2022']
+        )) {
             echo json_encode(['status' => 'success']);
-        } catch (PDOException $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to edit country']);
         }
     }
 
     public function exportData() {
-        try {
-            $stmt = $this->db->query("SELECT * FROM bmi_data");
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            $csvContent = "geo,bmi,year_2008,year_2014,year_2017,year_2019,year_2022\n";
-            foreach ($data as $row) {
-                $csvContent .= implode(",", $row) . "\n";
-            }
-
-            header('Content-Type: text/csv');
-            header('Content-Disposition: attachment;filename=bmi_data.csv');
-            echo $csvContent;
-        } catch (PDOException $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
+        $this->bmiModel->exportData();
     }
 
     public function getCountries() {
