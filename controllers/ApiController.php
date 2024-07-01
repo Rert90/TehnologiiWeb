@@ -83,7 +83,7 @@ class ApiController {
         $input = json_decode(file_get_contents('php://input'), true);
 
         if (!$input) {
-            $input = $_POST; // Asigură-te că primești datele din $_POST când nu sunt JSON
+            $input = $_POST; 
         }
 
         if ($this->bmiModel->editCountry(
