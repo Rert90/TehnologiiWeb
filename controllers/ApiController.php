@@ -82,6 +82,10 @@ class ApiController {
     public function editCountry() {
         $input = json_decode(file_get_contents('php://input'), true);
 
+        if (!$input) {
+            $input = $_POST; // Asigură-te că primești datele din $_POST când nu sunt JSON
+        }
+
         if ($this->bmiModel->editCountry(
             $input['geo'],
             $input['bmi'],
@@ -94,6 +98,14 @@ class ApiController {
             echo json_encode(['status' => 'success']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to edit country']);
+        }
+    }
+
+    public function deleteCountry($geo, $bmi) {
+        if ($this->bmiModel->deleteCountry($geo, $bmi)) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to delete country']);
         }
     }
 
@@ -123,6 +135,11 @@ class ApiController {
         $stmt = $this->bmiModel->getTopCountries();
         $topCountries = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($topCountries);
+    }
+
+    public function getCountryData($geo, $bmi) {
+        $stmt = $this->bmiModel->getCountryData($geo, $bmi);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 ?>

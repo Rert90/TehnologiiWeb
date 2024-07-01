@@ -122,7 +122,7 @@ class BmiModel {
         try {
             $stmt = $this->conn->prepare("
                 UPDATE bmi_data
-                SET bmi = :bmi, year_2008 = :year_2008, year_2014 = :year_2014, year_2017 = :year_2017, year_2019 = :year_2019, year_2022 = :year_2022
+                SET year_2008 = :year_2008, year_2014 = :year_2014, year_2017 = :year_2017, year_2019 = :year_2019, year_2022 = :year_2022
                 WHERE geo = :geo AND bmi = :bmi
             ");
             $stmt->execute([
@@ -133,6 +133,19 @@ class BmiModel {
                 'year_2017' => $year_2017,
                 'year_2019' => $year_2019,
                 'year_2022' => $year_2022,
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function deleteCountry($geo, $bmi) {
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM bmi_data WHERE geo = :geo AND bmi = :bmi");
+            $stmt->execute([
+                'geo' => $geo,
+                'bmi' => $bmi
             ]);
             return true;
         } catch (PDOException $e) {
@@ -156,6 +169,12 @@ class BmiModel {
         } catch (PDOException $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
+    }
+
+    public function getCountryData($geo, $bmi) {
+        $stmt = $this->conn->prepare("SELECT * FROM bmi_data WHERE geo = :geo AND bmi = :bmi");
+        $stmt->execute(['geo' => $geo, 'bmi' => $bmi]);
+        return $stmt;
     }
 }
 ?>

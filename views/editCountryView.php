@@ -1,22 +1,22 @@
 <?php
 require_once '../config/db.php';
-require_once '../controllers/EditCountryController.php';
+require_once '../controllers/ApiController.php';
 
-$editCountryController = new EditCountryController();
+$apiController = new ApiController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete'])) {
-        $editCountryController->deleteCountry($_GET['geo'], $_GET['bmi']);
+        $apiController->deleteCountry($_POST['geo'], $_POST['bmi']);
         header("Location: ../public/admin.php");
         exit();
     } else {
-        $editCountryController->updateCountry($_POST);
+        $apiController->editCountry();
         header("Location: ../public/admin.php");
         exit();
     }
 }
 
-$countryData = $editCountryController->getCountryData($_GET['geo'], $_GET['bmi']);
+$countryData = $apiController->getCountryData($_GET['geo'], $_GET['bmi']);
 ?>
 <!DOCTYPE html>
 <html lang="en-US">
@@ -70,3 +70,4 @@ $countryData = $editCountryController->getCountryData($_GET['geo'], $_GET['bmi']
 </div>
 </body>
 </html>
+    
