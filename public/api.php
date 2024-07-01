@@ -28,6 +28,8 @@ switch($request_method) {
             $apiController->updateCountrySelectionCount();
         } elseif ($action == 'addCountry') {
             $apiController->addCountry();
+        } elseif($action== 'deleteCountry'){
+            $apiController->deleteCountry();
         } elseif ($action == 'editCountry') {
             $apiController->editCountry();
         } else {
