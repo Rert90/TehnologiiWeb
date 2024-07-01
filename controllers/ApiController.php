@@ -20,6 +20,9 @@ class ApiController {
         if (isset($_GET['year'])) {
             $criteria['year'] = explode(',', $_GET['year']);
         }
+        if (isset($_GET['bmi'])) {
+            $criteria['bmi'] = $_GET['bmi'];
+        }
 
         $stmt = $this->bmiModel->getBmiData($criteria);
         $bmiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -96,7 +99,7 @@ class ApiController {
             $stmt = $this->db->prepare("
                 UPDATE bmi_data
                 SET bmi = :bmi, year_2008 = :year_2008, year_2014 = :year_2014, year_2017 = :year_2017, year_2019 = :year_2019, year_2022 = :year_2022
-                WHERE geo = :geo
+                WHERE geo = :geo AND bmi = :bmi
             ");
             $stmt->execute([
                 'geo' => $input['geo'],

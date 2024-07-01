@@ -17,7 +17,7 @@ try {
     $stmt = $pdo->query("SELECT name, email, message, created_at FROM messages ORDER BY created_at DESC");
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->query("SELECT * FROM bmi_data GROUP BY geo, bmi"); 
+    $stmt = $pdo->query("SELECT * FROM bmi_data ORDER BY geo, bmi"); 
     $bmiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $stmt = $pdo->query("SELECT country_code, selection_count FROM country_selections ORDER BY selection_count DESC");
@@ -107,7 +107,7 @@ try {
                         <td><?php echo htmlspecialchars($data['year_2019']); ?></td>
                         <td><?php echo htmlspecialchars($data['year_2022']); ?></td>
                         <td>
-                            <a href="../views/editCountryView.php?geo=<?php echo htmlspecialchars($data['geo']); ?>">Edit</a>
+                            <a href="../views/editCountryView.php?geo=<?php echo htmlspecialchars($data['geo']); ?>&bmi=<?php echo htmlspecialchars($data['bmi']); ?>"><button>Edit</button></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

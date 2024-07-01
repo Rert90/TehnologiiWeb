@@ -6,7 +6,7 @@ $editCountryController = new EditCountryController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete'])) {
-        $editCountryController->deleteCountry($_GET['geo']);
+        $editCountryController->deleteCountry($_GET['geo'], $_GET['bmi']);
         header("Location: ../public/admin.php");
         exit();
     } else {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$countryData = $editCountryController->getCountryData($_GET['geo']);
+$countryData = $editCountryController->getCountryData($_GET['geo'], $_GET['bmi']);
 ?>
 <!DOCTYPE html>
 <html lang="en-US">

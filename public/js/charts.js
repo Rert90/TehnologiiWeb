@@ -103,7 +103,7 @@ function generateChart() {
         params.append('bmi', filterBmiCategory);
     }
 
-    fetch('../public/api.php?' + params.toString())
+    fetch('../public/api.php?action=getBmiData&' + params.toString())
         .then(response => response.json())
         .then(data => {
             if (chartInstance) {
@@ -114,7 +114,7 @@ function generateChart() {
             const datasets = filterCountry.map((country, index) => ({
                 label: country,
                 data: filterYear.map(year => {
-                    const yearData = data.find(item => item.geo === country);
+                    const yearData = data.find(item => item.geo === country && item.bmi === filterBmiCategory);
                     return yearData ? yearData['year_' + year] : null;
                 }),
                 backgroundColor: colors[index % colors.length],
@@ -166,7 +166,7 @@ function exportChart(format) {
             params.append('bmi', filterBmiCategory);
         }
 
-        fetch('../public/api.php?' + params.toString())
+        fetch('../public/api.php?action=getBmiData&' + params.toString())
             .then(response => response.json())
             .then(data => {
                 const csvContent = "data:text/csv;charset=utf-8,"
