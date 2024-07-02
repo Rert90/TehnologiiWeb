@@ -29,23 +29,6 @@ class ApiController {
         echo json_encode($bmiData);
     }
 
-    public function insertBmiData() {
-        $input = json_decode(file_get_contents('php://input'), true);
-
-        $bmi = $input['bmi'];
-        $geo = $input['geo'];
-        $year_2008 = $input['year_2008'];
-        $year_2014 = $input['year_2014'];
-        $year_2017 = $input['year_2017'];
-        $year_2019 = $input['year_2019'];
-        $year_2022 = $input['year_2022'];
-
-        if($this->bmiModel->insertData($bmi, $geo, $year_2008, $year_2014, $year_2017, $year_2019, $year_2022)) {
-            echo json_encode(["message" => "Data inserted successfully"]);
-        } else {
-            echo json_encode(["message" => "Failed to insert data"]);
-        }
-    }
 
     public function updateCountrySelectionCount() {
         $input = json_decode(file_get_contents('php://input'), true);

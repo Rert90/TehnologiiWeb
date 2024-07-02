@@ -65,22 +65,6 @@ class BmiModel {
         return $stmt;
     }
 
-    public function insertData($bmi, $geo, $year_2008, $year_2014, $year_2017, $year_2019, $year_2022) {
-        $query = "INSERT INTO bmi_data (bmi, geo, year_2008, year_2014, year_2017, year_2019, year_2022) 
-                  VALUES (:bmi, :geo, :year_2008, :year_2014, :year_2017, :year_2019, :year_2022)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute([
-            'bmi' => $bmi,
-            'geo' => $geo,
-            'year_2008' => $year_2008,
-            'year_2014' => $year_2014,
-            'year_2017' => $year_2017,
-            'year_2019' => $year_2019,
-            'year_2022' => $year_2022
-        ]);
-        return $stmt;
-    }
-
     public function updateCountrySelectionCount($countries) {
         try {
             foreach ($countries as $country) {
